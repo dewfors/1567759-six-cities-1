@@ -43,16 +43,16 @@ export default class OfferGenerator implements OfferGeneratorInterface {
     const previewImage = `${preview}.jpg`
     const images = Array.from({length: 6}, (index) => {
       return `${preview}${index}.jpg`;
-    })
+    }).join(';');
     const isPremium = generateRandomValue(BOOL_FALSE, BOOL_TRUE).toString();
     const rating = generateRandomValue(MIN_RATING, MAX_RATING).toString();
     const type = getRandomItem<string>(this.mockData.types);
     const rooms = generateRandomValue(MIN_ROOMS, MAX_ROOMS).toString();
     const maxAdults = generateRandomValue(MIN_GUESTS, MAX_GUESTS).toString();
     const price = generateRandomValue(MIN_PRICE, MAX_PRICE).toString();
-    const goods = getRandomItems<string>(this.mockData.goods);
-    const authorName = getRandomItems<string>(this.mockData.users);
-    const authorEmail = getRandomItems<string>(this.mockData.emails);
+    const goods = getRandomItems<string>(this.mockData.goods).join(';');
+    const authorName = getRandomItem<string>(this.mockData.users);
+    const authorEmail = getRandomItem<string>(this.mockData.emails);
     const authorAvatar = `avatar-${authorName}.jpg`;
     const authorType = getRandomItem([UserType.Pro, UserType.Regular]);
     const countComments = generateRandomValue(MIN_COMMENTS, MAX_COMMENTS).toString();
