@@ -3,24 +3,58 @@
     "users": [
       "Angelina",
       "Olivia",
+      "Amelia",
+      "Jessica",
+      "Emily",
+      "Ruby",
+      "Amanda",
+      "Christine",
+      "Eleanor",
+      "Helen",
+      "Jennifer",
       "James",
       "Daniel"
     ],
     "emails": [
-      "snow@pisem.local",
-      "president@dka.local",
-      "fish@big.local",
-      "test@pisem.local"
+      "Angelina@gmail.com",
+      "Olivia@gmail.com",
+      "Amelia@gmail.com",
+      "Jessica@gmail.com",
+      "Emily@gmail.com",
+      "Ruby@gmail.com",
+      "Amanda@gmail.com",
+      "Christine@gmail.com",
+      "Eleanor@gmail.com",
+      "Helen@gmail.com",
+      "Jennifer@gmail.com",
+      "James@gmail.com",
+      "Daniel@gmail.com"
     ],
     "titles": [
-      "The house among olive",
-      "Tile House",
+      "Canal View Prinsengracht",
+      "The Joshua Tree House",
+      "Wood and stone place",
+      "Loft Studio in the Central Area",
+      "Nice, cozy, warm big bed apartment",
       "House in countryside",
-      "Wood and stone place"
+      "The house among olive ",
+      "Amazing and Extremely Central Flat",
+      "Tile House",
+      "Beautiful & luxurious apartment at great location",
+      "Penthouse, 4-5 rooms + 5 balconies",
+      "The Pondhouse - A Magical Place",
+      "Waterfront with extraordinary view",
+      "Perfectly located Castro"
     ],
     "descriptions": [
+      "Discover daily local life in city center, friendly neighborhood, clandestine casino, karaoke, old-style artisans, art gallery and artist studio downstairs.",
+      "Design interior in most sympathetic area! Complitely renovated, well-equipped, cosy studio in idyllic, over 100 years old wooden house. Calm street, fast connection to center and airport.",
+      "A new spacious villa, one floor. All commodities, jacuzzi and beautiful scenery. Ideal for families or friends.",
+      "Relax, rejuvenate and unplug in this ultimate rustic getaway experience in the country. In our beautiful screened Pondhouse, you can gaze at the stars and listen to the sounds of nature from your cozy warm bed.",
+      "This is a place for dreamers to reset, reflect, and create. Designed with a 'slow' pace in mind, our hope is that you enjoy every part of your stay; from making local coffee by drip in the morning, choosing the perfect record to put on as the sun sets.",
       "I am happy to welcome you to my apartment in the city center! Three words: location, cosy and chic!",
-      "A new spacious villa, one floor. All commodities, jacuzzi and beautiful scenery. Ideal for families or friends."
+      "I rent out a very sunny and bright apartment only 7 minutes walking distance to the metro station. The apartment has a spacious living room with a kitchen, one bedroom and a bathroom with mit bath. A terrace can be used in summer.",
+      "Peaceful studio in the most wanted area in town. Quiet house Near of everything. Completely renovated. Lovely neighbourhood, lot of trendy shops, restaurants and bars in a walking distance."
     ],
     "cities": [
       "Paris",
@@ -35,6 +69,19 @@
       "house",
       "room",
       "hotel"
+    ],
+    "goods": [
+      "Dishwasher",
+      "Baby seat",
+      "Laptop friendly workspace",
+      "Air conditioning",
+      "Fridge",
+      "Washer",
+      "Towels",
+      "Breakfast",
+      "Coffee machine",
+      "Washing machine",
+      "Cable TV"
     ]
   }
 }
