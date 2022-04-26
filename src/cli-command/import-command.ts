@@ -1,7 +1,6 @@
 import TSVFileReader from '../common/file-reader/tsv-file-reader.js';
 import { CliCommandInterface } from './cli-command.interface.js';
 import {createOffer, getErrorMessage} from '../utils/common.js';
-import chalk from 'chalk';
 
 export default class ImportCommand implements CliCommandInterface {
   public readonly name = '--import';

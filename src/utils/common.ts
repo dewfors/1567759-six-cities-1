@@ -31,5 +31,7 @@ export const createOffer = (row: string) => {
     location: {latitude: Number.parseInt(locationLat, 10), longitude: Number.parseInt(locationLng, 10)},
   } as Offer;
 
-
 };
+
+export const getErrorMessage = (error: unknown): string =>
+  error instanceof Error ? error.message : '';
