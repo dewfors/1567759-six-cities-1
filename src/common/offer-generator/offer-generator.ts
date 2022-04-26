@@ -41,8 +41,8 @@ export default class OfferGenerator implements OfferGeneratorInterface {
     const cityLng = city.location.longitude;
     const preview = getRandomItem<string>(this.mockData.offerImages);
     const previewImage = `${preview}.jpg`
-    const images = Array.from({length: 6}, (index) => {
-      return `${preview}${index}.jpg`;
+    const images = Array.from([1, 2, 3, 4, 5, 6], (i) => {
+      return `${preview}${i}.jpg`;
     }).join(';');
     const isPremium = generateRandomValue(BOOL_FALSE, BOOL_TRUE).toString();
     const rating = generateRandomValue(MIN_RATING, MAX_RATING).toString();
