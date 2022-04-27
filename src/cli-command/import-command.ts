@@ -14,20 +14,19 @@ export default class ImportCommand implements CliCommandInterface {
     console.log(`${count} rows imported.`);
   }
 
-
   public async execute(filename: string): Promise<void> {
     try {
       const fileReader = new TSVFileReader(filename.trim());
       fileReader.on('line', this.onLine);
       fileReader.on('end', this.onComplete);
-
-      try {
-        await fileReader.read();
-      } catch (err) {
+      await fileReader.read();
+    } catch (err) {
+      if (err instanceof TypeError) {
+        console.log(`file name not specified: ${getErrorMessage(err)}`);
+      } else {
         console.log(`Can't read the file: ${getErrorMessage(err)}`);
       }
-    } catch (err) {
-      console.log(`file name not specified: ${getErrorMessage(err)}`);
     }
   }
+
 }
