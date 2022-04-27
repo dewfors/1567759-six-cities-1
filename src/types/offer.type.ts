@@ -1,6 +1,6 @@
 import { Location } from './location.type.js';
 import {User} from './user.type.js';
-import {City} from './city.type';
+import {CityType} from './city.type';
 import {HousingType} from './housing.type';
 import { GoodsType } from './goods.type.js';
 
@@ -8,7 +8,7 @@ export type Offer = {
   title: string;
   description: string;
   postDate: Date;
-  city: City;
+  city: CityType;
   previewImage: string;
   images: string[];
   isPremium: boolean;
