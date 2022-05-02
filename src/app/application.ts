@@ -11,7 +11,7 @@ export default class Application {
     @inject(Component.ConfigInterface) private config: ConfigInterface) {}
 
   public async init() {
-    this.logger.info('Application initialization…');
+    this.logger.info('Application initialization...');
     this.logger.info(`Get value from env $PORT: ${this.config.get('PORT')}`);
   }
 }
