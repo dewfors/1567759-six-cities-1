@@ -16,6 +16,9 @@ export class UserEntity implements User {
 
   @prop()
   public type!: UserType;
+
+  @prop()
+  public password!: string;
 }
 
 export const UserModel = getModelForClass(UserEntity);
