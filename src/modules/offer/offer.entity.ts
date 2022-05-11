@@ -5,7 +5,7 @@ import {OfferFieldsSettings} from '../../utils/const.js';
 import {CityType} from '../../types/city.type.js';
 import {GoodsType} from '../../types/goods.type.js';
 import {HousingType} from '../../types/housing.type.js';
-import {Location} from "../../types/location.type";
+import {Location} from '../../types/location.type.js';
 
 
 const {modelOptions, prop} = typegoose;

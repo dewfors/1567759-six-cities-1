@@ -45,8 +45,6 @@ export default class ImportCommand implements CliCommandInterface {
       password: DEFAULT_USER_PASSWORD
     }, this.salt);
 
-
-
     await this.offerService.create({
       ...offer,
       author: user.id,
