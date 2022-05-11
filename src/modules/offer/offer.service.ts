@@ -12,8 +12,8 @@ import { Component } from '../../types/component.types.js';
 @injectable()
 export default class OfferService implements OfferServiceInterface {
   constructor(
+    @inject(Component.LoggerInterface) private logger: LoggerInterface,
     @inject(Component.OfferModel) private readonly offerModel: ModelType<OfferEntity>,
-    @inject(Component.LoggerInterface) private logger: LoggerInterface
   ) {}
 
   public async create(dto: CreateOfferDTO): Promise<DocumentType<OfferEntity>> {

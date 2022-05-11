@@ -7,7 +7,7 @@ import { GoodsType } from './goods.type.js';
 export type Offer = {
   title: string;
   description: string;
-  postDate: Date;
+  postDate: string;
   city: CityType;
   previewImage: string;
   images: string[];

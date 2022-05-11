@@ -14,6 +14,6 @@ export enum OfferFieldsSettings {
   OfferRoomsMax = 8,
   OfferMaxAdultsMin = 1,
   OfferMaxAdultsMax = 10,
-  OfferPriceMin = 1,
-  OfferPriceMax = 10,
+  OfferPriceMin = 100,
+  OfferPriceMax = 100000,
 }

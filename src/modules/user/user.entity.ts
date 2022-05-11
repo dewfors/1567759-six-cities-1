@@ -3,7 +3,7 @@ import {Base, TimeStamps} from '@typegoose/typegoose/lib/defaultClasses.js';
 import {UserType} from '../../types/user-type.enum.js';
 import {User} from '../../types/user.type.js';
 import {createSHA256} from '../../utils/common.js';
-import {UserNameSetting} from "../../utils/const";
+import {UserNameSetting} from '../../utils/const.js';
 
 const {prop, modelOptions} = typegoose;
 
@@ -43,7 +43,7 @@ export class UserEntity extends TimeStamps implements User {
   public email!: string;
 
   @prop({})
-  public avatarPath?: string;
+  public avatarPath: string;
 
   @prop({
     type: () => String,

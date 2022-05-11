@@ -15,7 +15,7 @@ export const createOffer = (row: string) => {
   return {
     title,
     description,
-    postDate: new Date(createdDate),
+    postDate: createdDate,
     city: {name: cityName as cityNamesType,
       location: {latitude: Number.parseInt(cityLat, 10), longitude: Number.parseInt(cityLng, 10)}},
     previewImage,
