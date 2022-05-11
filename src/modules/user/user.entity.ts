@@ -3,6 +3,7 @@ import {Base, TimeStamps} from '@typegoose/typegoose/lib/defaultClasses.js';
 import {UserType} from '../../types/user-type.enum.js';
 import {User} from '../../types/user.type.js';
 import {createSHA256} from '../../utils/common.js';
+import {UserNameSetting} from "../../utils/const";
 
 const {prop, modelOptions} = typegoose;
 
@@ -24,19 +25,38 @@ export class UserEntity extends TimeStamps implements User {
     this.type = data.type;
   }
 
-  @prop({required: true, default: ''})
+  @prop({
+    required: true,
+    minlength: UserNameSetting.MinLength,
+    maxlength: UserNameSetting.MaxLength,
+    trim: true,
+    default: '',
+  })
   public name!: string;
 
-  @prop({ unique: true, required: true })
+  @prop({
+    unique: true,
+    required: true,
+    trim: true,
+    default: ''
+  })
   public email!: string;
 
-  @prop({required: true, default: ''})
-  public avatarPath!: string;
+  @prop({})
+  public avatarPath?: string;
 
-  @prop({required: true, default: 'regular'})
+  @prop({
+    type: () => String,
+    enum: UserType,
+    required: true,
+    default: UserType.Regular,
+  })
   public type!: UserType;
 
-  @prop({required: true, default: ''})
+  @prop({
+    required: true,
+    default: ''
+  })
   private password!: string;
 
   public setPassword(password: string, salt: string) {
