@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import { Offer } from '../types/offer.type.js';
 import {cityNamesType} from '../types/city-names.type.js';
 import {HousingType} from '../types/housing.type.js';
@@ -14,7 +15,7 @@ export const createOffer = (row: string) => {
   return {
     title,
     description,
-    postDate: new Date(createdDate),
+    postDate: createdDate,
     city: {name: cityName as cityNamesType,
       location: {latitude: Number.parseInt(cityLat, 10), longitude: Number.parseInt(cityLng, 10)}},
     previewImage,
@@ -35,3 +36,8 @@ export const createOffer = (row: string) => {
 
 export const getErrorMessage = (error: unknown): string =>
   error instanceof Error ? error.message : '';
+
+export const createSHA256 = (line: string, salt: string): string => {
+  const shaHasher = crypto.createHmac('sha256', salt);
+  return shaHasher.update(line).digest('hex');
+};
