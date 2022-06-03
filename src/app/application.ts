@@ -36,7 +36,7 @@ export default class Application {
     );
 
     await this.databaseClient.connect(uri);
-    
+
     this.registerMiddlewares();
     this.expressApp.listen(this.config.get('PORT'));
     this.logger.info(`Server started on http://localhost:${this.config.get('PORT')}`);
