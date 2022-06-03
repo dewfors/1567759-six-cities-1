@@ -13,6 +13,8 @@ import {UserEntity, UserModel} from './modules/user/user.entity.js';
 import { ModelType } from '@typegoose/typegoose/lib/types.js';
 import { ExceptionFilterInterface } from './common/errors/exception-filter.interface.js';
 import ExceptionFilter from './common/errors/exception-filter.js';
+import { ControllerInterface } from './common/controller/controller.interface.js';
+import UserController from './modules/user/user.controller.js';
 
 
 const applicationContainer = new Container();
@@ -23,6 +25,7 @@ applicationContainer.bind<DatabaseInterface>(Component.DatabaseInterface).to(Dat
 applicationContainer.bind<UserServiceInterface>(Component.UserServiceInterface).to(UserService);
 applicationContainer.bind<ModelType<UserEntity>>(Component.UserModel).toConstantValue(UserModel);
 applicationContainer.bind<ExceptionFilterInterface>(Component.ExceptionFilterInterface).to(ExceptionFilter).inSingletonScope();
+applicationContainer.bind<ControllerInterface>(Component.UserController).to(UserController).inSingletonScope();
 
 const application = applicationContainer.get<Application>(Component.Application);
 await application.init();
