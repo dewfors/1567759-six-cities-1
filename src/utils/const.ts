@@ -1,3 +1,6 @@
+
+export const MAX_COMMENTS_COUNT = 50;
+
 export enum UserNameSetting {
   MinLength = 1,
   MaxLength = 15,
@@ -16,4 +19,11 @@ export enum OfferFieldsSettings {
   OfferMaxAdultsMax = 10,
   OfferPriceMin = 100,
   OfferPriceMax = 100000,
+}
+
+export enum CommentSettings {
+  CommentMinLength = 5,
+  CommentMaxLength = 1024,
+  CommentRatingMin = 1,
+  CommentRatingMax = 5,
 }

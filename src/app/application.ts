@@ -9,6 +9,7 @@ import {DatabaseInterface} from '../common/database-client/database.interface.js
 import { ExceptionFilterInterface } from '../common/errors/exception-filter.interface.js';
 import UserController from '../modules/user/user.controller.js';
 import OfferController from '../modules/offer/offer.controller.js';
+import { ControllerInterface } from '../common/controller/controller.interface.js';
 
 @injectable()
 export default class Application {
@@ -21,6 +22,7 @@ export default class Application {
     @inject(Component.ExceptionFilterInterface) private exceptionFilter: ExceptionFilterInterface,
     @inject(Component.UserController) private userController: UserController,
     @inject(Component.OfferController) private readonly offerController: OfferController,
+    @inject(Component.CommentController) private readonly commentController: ControllerInterface,
   ) {
     this.expressApp = express();
   }
@@ -28,6 +30,7 @@ export default class Application {
   public registerRoutes() {
     this.expressApp.use('/users', this.userController.router);
     this.expressApp.use('/offers', this.offerController.router);
+    this.expressApp.use('/', this.commentController.router);
   }
 
   public registerMiddlewares() {

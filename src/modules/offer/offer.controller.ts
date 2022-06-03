@@ -60,9 +60,4 @@ export default class OfferController extends Controller {
     throw new HttpError(StatusCodes.NOT_IMPLEMENTED, 'Not implemented!', 'OfferController');
   }
 
-
-
-
-
 }
-
