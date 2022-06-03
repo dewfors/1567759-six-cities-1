@@ -1,7 +1,5 @@
 import 'reflect-metadata';
 import {inject, injectable} from 'inversify';
-// import {UserEntity, UserModel} from './user.entity.js';
-// import {DocumentType} from '@typegoose/typegoose/lib/types.js';
 import {DocumentType, ModelType} from '@typegoose/typegoose/lib/types.js';
 import {UserEntity} from './user.entity.js';
 import CreateUserDto from './dto/create-user.dto.js';

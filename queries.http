@@ -2,3 +2,50 @@
 GET http://localhost:3123/api HTTP/1.1
 
 ###
+
+# Пользователи
+## Регистрация пользователя
+
+POST http://localhost:4000/users/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Jack.Torrance",
+  "email": "torans@overlook.net",
+  "password": "1234abcd",
+  "avatar": "torrance.png",
+  "userType": "pro"
+}
+
+###
+
+# Login user
+POST http://localhost:4000/users/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "torans@overlook.net",
+  "password": "oifylsdf"
+}
+
+###
+###
+
+# Get offers
+GET http://localhost:4000/offers HTTP/1.1
+Content-Type: application/json
+
+###
+
+###
+
+# Get comments
+GET http://localhost:4000/offers/627b80b930e4a5aa5a5a4cab/comments HTTP/1.1
+Content-Type: application/json
+
+###
+
+# Create comment
+POST http://localhost:4000/offers/627b80b930e4a5aa5a5a4cab/comments HTTP/1.1
+Content-Type: application/json
+
