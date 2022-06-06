@@ -6,12 +6,19 @@ import {HttpMethod} from '../../types/http-method.enum.js';
 import {Request, Response} from 'express';
 import HttpError from '../../common/errors/http-error.js';
 import { StatusCodes } from 'http-status-codes';
+import { OfferServiceInterface } from './offer-service.interface.js';
+import * as core from 'express-serve-static-core';
+
+type ParamsGetOffer = {
+  offerId: string;
+}
 
 @injectable()
 export default class OfferController extends Controller {
 
   constructor(
     @inject(Component.LoggerInterface) protected readonly logger: LoggerInterface,
+    @inject(Component.OfferServiceInterface) private readonly offerService: OfferServiceInterface,
   ) {
     super(logger);
 
@@ -36,8 +43,22 @@ export default class OfferController extends Controller {
     throw new HttpError(StatusCodes.NOT_IMPLEMENTED, 'Not implemented!', 'OfferController');
   }
 
-  public async getOneOffer(_req: Request, _res: Response): Promise<void> {
-    throw new HttpError(StatusCodes.NOT_IMPLEMENTED, 'Not implemented!', 'OfferController');
+  public async getOneOffer(
+    {params}: Request<core.ParamsDictionary | ParamsGetOffer>,
+    res: Response
+  ): Promise<void> {
+    const {offerId} = params;
+    const offer = await this.offerService.findById(offerId);
+
+    if (!offer) {
+      throw new HttpError(
+        StatusCodes.NOT_FOUND,
+        `Offer with id ${offerId} not found.`,
+        'OfferController'
+      );
+    }
+
+    this.ok(res, offer);
   }
 
   public async updateOffer(_req: Request, _res: Response): Promise<void> {
