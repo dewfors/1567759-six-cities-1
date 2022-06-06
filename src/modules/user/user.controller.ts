@@ -11,6 +11,7 @@ import HttpError from '../../common/errors/http-error.js';
 import { StatusCodes } from 'http-status-codes';
 import UserDto from './dto/user.dto.js';
 import { fillDTO } from '../../utils/common.js';
+import LoginUserDto from './dto/login-user.dto.js';
 
 @injectable()
 export default class UserController extends Controller {
@@ -46,7 +47,21 @@ export default class UserController extends Controller {
     this.created(res, fillDTO(UserDto, result));
   }
 
-  public async loginUser(_req: Request, _res: Response): Promise<void> {
+  public async loginUser(
+    {body}: Request<Record<string, unknown>, Record<string, unknown>, LoginUserDto>,
+    _res: Response,
+  ): Promise<void> {
+
+    const existsUser = await this.userService.findByEmail(body.email);
+
+    if (!existsUser) {
+      throw new HttpError(
+        StatusCodes.UNAUTHORIZED,
+        `User with email ${body.email} not found.`,
+        'UserController',
+      );
+    }
+
     throw new HttpError(StatusCodes.NOT_IMPLEMENTED, 'Not implemented!', 'UserController');
   }
 
