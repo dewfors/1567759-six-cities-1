@@ -11,5 +11,4 @@ export interface OfferServiceInterface {
   updateById(offerId: ObjectId | string, dto: CreateOfferDto): Promise<DocumentType<OfferEntity> | null>;
   deleteById(offerId: ObjectId | string): Promise<DocumentType<OfferEntity> | null>;
   findPremium(count: number): Promise<DocumentType<OfferEntity>[]>;
-  // findPremium(): Promise<DocumentType<OfferEntity>[]>;
 }

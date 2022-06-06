@@ -40,9 +40,7 @@ export default class OfferService implements OfferServiceInterface {
   }
 
   public async findPremium(count: number): Promise<DocumentType<OfferEntity>[]> {
-  // public async findPremium(): Promise<DocumentType<OfferEntity>[]> {
     return this.offerModel.find({isPremium: true}).sort({postDate: -1}).limit(count).exec();
-    // return this.offerModel.find({isPremium: true}).sort({date: -1}).exec();
   }
 
 }

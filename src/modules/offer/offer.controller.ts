@@ -96,7 +96,6 @@ export default class OfferController extends Controller {
 
   public async getPremiumOffers(_req: Request, res: Response): Promise<void> {
     const offers = await this.offerService.findPremium(MAX_PREMIUM_COUNT);
-    // const offers = await this.offerService.findPremium();
     console.log(offers);
     this.ok(res, fillDTO(OfferDto, offers));
 
