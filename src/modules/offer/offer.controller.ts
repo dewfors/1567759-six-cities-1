@@ -12,6 +12,7 @@ import {fillDTO} from '../../utils/common.js';
 import OfferDto from './dto/offer.dto.js';
 import CreateOfferDto from './dto/create-offer.dto.js';
 import { MAX_PREMIUM_COUNT } from '../../utils/const.js';
+import {ValidateObjectIdMiddleware} from '../../common/middlewares/validate-objectid.middleware.js';
 
 type ParamsGetOffer = {
   offerId: string;
@@ -31,9 +32,24 @@ export default class OfferController extends Controller {
     this.addRoute({path: '/', method: HttpMethod.Get, handler: this.getOffers});
     this.addRoute({path: '/', method: HttpMethod.Post, handler: this.createOffer});
     this.addRoute({path: '/premium', method: HttpMethod.Get, handler: this.getPremiumOffers});
-    this.addRoute({path: '/:offerId', method: HttpMethod.Get, handler: this.getOneOffer});
-    this.addRoute({path: '/:offerId', method: HttpMethod.Put, handler: this.updateOffer});
-    this.addRoute({path: '/:offerId', method: HttpMethod.Delete, handler: this.deleteOffer});
+    this.addRoute({
+      path: '/:offerId',
+      method: HttpMethod.Get,
+      handler: this.getOneOffer,
+      middlewares: [new ValidateObjectIdMiddleware('offerId')]
+    });
+    this.addRoute({
+      path: '/:offerId',
+      method: HttpMethod.Put,
+      handler: this.updateOffer,
+      middlewares: [new ValidateObjectIdMiddleware('offerId')]
+    });
+    this.addRoute({
+      path: '/:offerId',
+      method: HttpMethod.Delete,
+      handler: this.deleteOffer,
+      middlewares: [new ValidateObjectIdMiddleware('offerId')]
+    });
     this.addRoute({path: '/favorites', method: HttpMethod.Get, handler: this.getFavoriteOffers});
     this.addRoute({path: '/favorites/:offerId/:status', method: HttpMethod.Post, handler: this.changeFavoriteStatus});
 
