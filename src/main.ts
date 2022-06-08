@@ -17,6 +17,9 @@ import { ControllerInterface } from './common/controller/controller.interface.js
 import UserController from './modules/user/user.controller.js';
 import OfferController from './modules/offer/offer.controller.js';
 import CommentController from './modules/comment/comment.controller.js';
+import {OfferEntity, OfferModel} from './modules/offer/offer.entity.js';
+import OfferService from './modules/offer/offer.service.js';
+import { OfferServiceInterface } from './modules/offer/offer-service.interface.js';
 
 const applicationContainer = new Container();
 applicationContainer.bind<Application>(Component.Application).to(Application).inSingletonScope();
@@ -25,9 +28,12 @@ applicationContainer.bind<ConfigInterface>(Component.ConfigInterface).to(ConfigS
 applicationContainer.bind<DatabaseInterface>(Component.DatabaseInterface).to(DatabaseService).inSingletonScope();
 applicationContainer.bind<UserServiceInterface>(Component.UserServiceInterface).to(UserService);
 applicationContainer.bind<ModelType<UserEntity>>(Component.UserModel).toConstantValue(UserModel);
+applicationContainer.bind<OfferServiceInterface>(Component.OfferServiceInterface).to(OfferService).inSingletonScope();
+applicationContainer.bind<ModelType<OfferEntity>>(Component.OfferModel).toConstantValue(OfferModel);
 applicationContainer.bind<ExceptionFilterInterface>(Component.ExceptionFilterInterface).to(ExceptionFilter).inSingletonScope();
 applicationContainer.bind<ControllerInterface>(Component.UserController).to(UserController).inSingletonScope();
 applicationContainer.bind<ControllerInterface>(Component.OfferController).to(OfferController).inSingletonScope();
+
 applicationContainer.bind<ControllerInterface>(Component.CommentController).to(CommentController).inSingletonScope();
 
 const application = applicationContainer.get<Application>(Component.Application);

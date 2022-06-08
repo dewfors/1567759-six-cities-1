@@ -4,7 +4,7 @@ import {GoodsType} from '../../../types/goods.type.js';
 import {Location} from '../../../types/location.type.js';
 
 
-export default class CreateOfferDTO {
+export default class CreateOfferDto {
   public title!: string;
   public description!: string;
   public postDate!: string;

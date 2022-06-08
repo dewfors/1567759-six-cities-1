@@ -27,7 +27,7 @@ class OfferEntity extends TimeStamps {
     maxlength: OfferFieldsSettings.OfferTitleMax,
     default: '',
   })
-  public text!: string;
+  public title!: string;
 
   @prop({
     required: true,
