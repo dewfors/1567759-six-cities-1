@@ -10,5 +10,6 @@
 coverage
 *.log
 *.env
+/upload/
 
 help.txt
