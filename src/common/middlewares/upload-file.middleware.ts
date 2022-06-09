@@ -3,6 +3,9 @@ import {nanoid} from 'nanoid';
 import multer, {diskStorage} from 'multer';
 import mime from 'mime';
 import {MiddlewareInterface} from '../../types/middleware.interface.js';
+import {SUPPORTED_IMG_FORMATS} from '../../utils/const.js';
+import HttpError from '../errors/http-error.js';
+import {StatusCodes} from 'http-status-codes';
 
 export class UploadFileMiddleware implements MiddlewareInterface {
   constructor(
@@ -20,8 +23,21 @@ export class UploadFileMiddleware implements MiddlewareInterface {
       }
     });
 
-    const uploadSingleFileMiddleware = multer({storage})
-      .single(this.fieldName);
+    const uploadSingleFileMiddleware = multer({
+      storage,
+      fileFilter: (_req, file, callback) => {
+        console.log(file.mimetype);
+        console.log(file.originalname);
+        if (!SUPPORTED_IMG_FORMATS.includes(file.mimetype)) {
+          return callback(new HttpError(
+            StatusCodes.BAD_REQUEST,
+            'Unsupported image format',
+            'UploadFileMiddleware'
+          ));
+        }
+        callback(null, true);
+      }
+    }).single(this.fieldName);
 
     uploadSingleFileMiddleware(req, res, next);
   }

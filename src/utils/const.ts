@@ -35,3 +35,8 @@ export enum CommentSettings {
   CommentRatingMin = 1,
   CommentRatingMax = 5,
 }
+
+export const SUPPORTED_IMG_FORMATS = [
+  'image/jpeg',
+  'image/png',
+];
