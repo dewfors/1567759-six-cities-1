@@ -8,6 +8,11 @@ export enum UserNameSetting {
   MaxLength = 15,
 }
 
+export enum UserPasswordSetting {
+  MinLength = 6,
+  MaxLength = 12,
+}
+
 export enum OfferFieldsSettings {
   OfferTitleMin = 10,
   OfferTitleMax = 100,
@@ -21,6 +26,7 @@ export enum OfferFieldsSettings {
   OfferMaxAdultsMax = 10,
   OfferPriceMin = 100,
   OfferPriceMax = 100000,
+  OfferImagesCount = 6,
 }
 
 export enum CommentSettings {

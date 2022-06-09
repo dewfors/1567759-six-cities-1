@@ -1,7 +1,8 @@
-import {Expose} from 'class-transformer';
+import {Expose, Transform} from 'class-transformer';
 
 export default class OfferDto {
   @Expose()
+  @Transform((value) => value.obj._id.toString())
   public id!: string;
 
   @Expose()
@@ -47,6 +48,7 @@ export default class OfferDto {
   public goods!: string[];
 
   @Expose()
+  @Transform((value) => value.obj.author.toString())
   public author!: string;
 
   @Expose()
