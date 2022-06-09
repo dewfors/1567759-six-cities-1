@@ -1,5 +1,5 @@
 import {IsEmail, IsString, MaxLength, MinLength} from 'class-validator';
-import {UserPasswordSetting} from "../../../utils/const";
+import {UserPasswordSetting} from '../../../utils/const.js';
 
 export default class LoginUserDto {
   @IsEmail({}, {message: 'not valid email'})
