@@ -13,6 +13,7 @@ import OfferDto from './dto/offer.dto.js';
 import CreateOfferDto from './dto/create-offer.dto.js';
 import { MAX_PREMIUM_COUNT } from '../../utils/const.js';
 import {ValidateObjectIdMiddleware} from '../../common/middlewares/validate-objectid.middleware.js';
+import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
 
 type ParamsGetOffer = {
   offerId: string;
@@ -30,7 +31,12 @@ export default class OfferController extends Controller {
     this.logger.info('Register routes for OfferController...');
 
     this.addRoute({path: '/', method: HttpMethod.Get, handler: this.getOffers});
-    this.addRoute({path: '/', method: HttpMethod.Post, handler: this.createOffer});
+    this.addRoute({
+      path: '/',
+      method: HttpMethod.Post,
+      handler: this.createOffer,
+      middlewares: [new ValidateDtoMiddleware(CreateOfferDto)]
+    });
     this.addRoute({path: '/premium', method: HttpMethod.Get, handler: this.getPremiumOffers});
     this.addRoute({
       path: '/:offerId',
@@ -42,7 +48,10 @@ export default class OfferController extends Controller {
       path: '/:offerId',
       method: HttpMethod.Put,
       handler: this.updateOffer,
-      middlewares: [new ValidateObjectIdMiddleware('offerId')]
+      middlewares: [
+        new ValidateObjectIdMiddleware('offerId'),
+        new ValidateDtoMiddleware(CreateOfferDto)
+      ]
     });
     this.addRoute({
       path: '/:offerId',

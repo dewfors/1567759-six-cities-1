@@ -12,6 +12,7 @@ import { StatusCodes } from 'http-status-codes';
 import UserDto from './dto/user.dto.js';
 import { fillDTO } from '../../utils/common.js';
 import LoginUserDto from './dto/login-user.dto.js';
+import {ValidateDtoMiddleware} from '../../common/middlewares/validate-dto.middleware.js';
 
 @injectable()
 export default class UserController extends Controller {
@@ -23,8 +24,18 @@ export default class UserController extends Controller {
     super(logger);
     this.logger.info('Register routes for UserController...');
 
-    this.addRoute({path: '/register', method: HttpMethod.Post, handler: this.create});
-    this.addRoute({path: '/login',    method: HttpMethod.Post, handler: this.loginUser});
+    this.addRoute({
+      path: '/register',
+      method: HttpMethod.Post,
+      handler: this.create,
+      middlewares: [new ValidateDtoMiddleware(CreateUserDto)]
+    });
+    this.addRoute({
+      path: '/login',
+      method: HttpMethod.Post,
+      handler: this.loginUser,
+      middlewares: [new ValidateDtoMiddleware(LoginUserDto)]
+    });
     this.addRoute({path: '/login',    method: HttpMethod.Get, handler: this.checkUser});
     this.addRoute({path: '/login',    method: HttpMethod.Get, handler: this.logoutUser});
   }

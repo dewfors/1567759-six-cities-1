@@ -17,8 +17,8 @@ import {
 import { HousingType } from '../../../types/housing.type.js';
 import {GoodsType} from '../../../types/goods.type.js';
 import {OfferFieldsSettings} from '../../../utils/const.js';
-import CityDto from "./city.dto";
-import LocationDto from "./location.dto";
+import CityDto from './city.dto.js';
+import LocationDto from './location.dto.js';
 
 
 export default class CreateOfferDto {
