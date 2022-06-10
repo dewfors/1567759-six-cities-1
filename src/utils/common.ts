@@ -2,7 +2,7 @@ import crypto from 'crypto';
 import {plainToInstance} from 'class-transformer';
 import {ClassConstructor} from 'class-transformer/types/interfaces/class-constructor.type.js';
 import { Offer } from '../types/offer.type.js';
-import {cityNamesType} from '../types/city-names.type.js';
+import {CityNamesType} from '../types/city-names.type.js';
 import {HousingType} from '../types/housing.type.js';
 import {GoodsType} from '../types/goods.type.js';
 import {UserType} from '../types/user-type.enum.js';
@@ -18,7 +18,7 @@ export const createOffer = (row: string) => {
     title,
     description,
     postDate: createdDate,
-    city: {name: cityName as cityNamesType,
+    city: {name: cityName as CityNamesType,
       location: {latitude: Number.parseInt(cityLat, 10), longitude: Number.parseInt(cityLng, 10)}},
     previewImage,
     images: images.split(';').map((name) => (name)),

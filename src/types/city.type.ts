@@ -1,7 +1,7 @@
 import {Location} from './location.type.js';
-import {cityNamesType} from './city-names.type.js';
+import {CityNamesType} from './city-names.type.js';
 
 export type CityType = {
-  name: cityNamesType;
+  name: CityNamesType;
   location: Location;
 };
