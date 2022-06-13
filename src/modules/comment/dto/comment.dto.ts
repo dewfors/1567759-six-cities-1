@@ -16,7 +16,7 @@ export default class CommentDto {
   @Expose({name: 'createdAt'})
   public postDate!: string;
 
-  @Expose()
+  @Expose({name: 'userId'})
   @Type(() => UserDto)
   public author!: UserDto;
 }
