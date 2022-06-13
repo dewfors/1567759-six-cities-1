@@ -24,7 +24,7 @@ class CommentEntity extends defaultClasses.TimeStamps {
     maxlength: CommentSettings.CommentMaxLength,
     default: '',
   })
-  public comment!: string;
+  public text!: string;
 
   @prop({
     required: true,
@@ -38,13 +38,13 @@ class CommentEntity extends defaultClasses.TimeStamps {
     required: true,
     ref: () => OfferEntity
   })
-  public offer!: Ref<OfferEntity>;
+  public offerId!: Ref<OfferEntity>;
 
   @prop({
     required: true,
     ref: () => UserEntity,
   })
-  public author!: Ref<UserEntity>;
+  public userId!: Ref<UserEntity>;
 
   public get postDate() {
     return this.createdAt;
