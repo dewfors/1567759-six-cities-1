@@ -1,5 +1,5 @@
 import {IsNumber, IsOptional, Max, MaxLength, Min, MinLength} from 'class-validator';
-import {CommentSettings} from "../../../utils/const";
+import {CommentSettings} from '../../../utils/const.js';
 
 export default class UpdateCommentDto {
   @IsOptional()

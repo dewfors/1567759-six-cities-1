@@ -94,7 +94,7 @@ export default class OfferController extends Controller {
     });
 
     this.addRoute({
-      path: `/:offerId/comments`,
+      path: '/:offerId/comments',
       method: HttpMethod.Post,
       handler: this.createComment,
       middlewares: [
@@ -104,7 +104,7 @@ export default class OfferController extends Controller {
     });
 
     this.addRoute({
-      path: `/:offerId/comments`,
+      path: '/:offerId/comments',
       method: HttpMethod.Get,
       handler: this.getCommentsByOfferId,
       middlewares: [

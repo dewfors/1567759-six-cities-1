@@ -49,9 +49,7 @@ export default class OfferService implements OfferServiceInterface {
 
   public async incCommentCount(offerId: string): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
-      .findByIdAndUpdate(offerId, {'$inc': {
-          countComments: 1,
-        }}).exec();
+      .findByIdAndUpdate(offerId, {'$inc': {countComments: 1,}}).exec();
   }
 
 }
