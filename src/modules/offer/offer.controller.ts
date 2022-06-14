@@ -17,6 +17,7 @@ import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.mid
 import CommentDto from '../comment/dto/comment.dto.js';
 import { CommentServiceInterface } from '../comment/comment-service.interface.js';
 import CreateCommentDto from '../comment/dto/create-comment.dto.js';
+import { DocumentExistsMiddleware } from '../../common/middlewares/document-exists.middleware.js';
 
 type ParamsGetOffer = {
   offerId: string;
@@ -70,7 +71,10 @@ export default class OfferController extends Controller {
       path: `/:offerId/comments`,
       method: HttpMethod.Post,
       handler: this.createComment,
-      middlewares: [new ValidateObjectIdMiddleware('offerId')]
+      middlewares: [
+        new ValidateObjectIdMiddleware('offerId'),
+        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
+      ]
     });
   }
 
@@ -147,18 +151,8 @@ export default class OfferController extends Controller {
 
   public async createComment(
     {body, params: {offerId}}: Request<core.ParamsDictionary | ParamsGetOffer, CreateCommentDto>,
-    // {body}: Request<object, object, CreateCommentDto>,
     res: Response
   ): Promise<void> {
-    // console.log(body);
-    if (!await this.offerService.exists(offerId)) {
-      throw new HttpError(
-        StatusCodes.NOT_FOUND,
-        `Offer with id ${offerId} not found.`,
-        'CommentController'
-      );
-    }
-
     const comment = await this.commentService.create(body, '627b80b930e4a5aa9d9b4cab', offerId);
     this.created(res, fillDTO(CommentDto, comment));
   }
