@@ -5,6 +5,6 @@ import CreateCommentDTO from './dto/create-comment.dto.js';
 
 
 export interface CommentServiceInterface {
-  create(dto: CreateCommentDTO): Promise<DocumentType<CommentEntity>>
-  findAllByOfferId(offerId: ObjectId | string): Promise<DocumentType<CommentEntity>[]>;
+  create(dto: CreateCommentDTO, userId: string, offerId: string): Promise<DocumentType<CommentEntity>>
+  findAllByOfferId(id: ObjectId | string): Promise<DocumentType<CommentEntity>[]>;
 }

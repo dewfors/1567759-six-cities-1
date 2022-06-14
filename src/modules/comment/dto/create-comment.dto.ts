@@ -1,7 +1,7 @@
 import {IsMongoId, IsNumber, Max, MaxLength, Min, MinLength} from 'class-validator';
 import {CommentSettings} from '../../../utils/const.js';
 
-export default class CreateOfferDTO {
+export default class CreateCommentDto {
   @MinLength(CommentSettings.CommentMinLength, {message: `Minimum text length must be greater than ${CommentSettings.CommentMinLength}`})
   @MaxLength(CommentSettings.CommentMaxLength, {message: `Maximum text length must be less than ${CommentSettings.CommentMaxLength}`})
   public text!: string;

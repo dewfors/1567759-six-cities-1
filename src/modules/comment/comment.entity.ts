@@ -3,7 +3,7 @@ import {CommentSettings} from '../../utils/const.js';
 import {OfferEntity} from '../offer/offer.entity.js';
 import {UserEntity} from '../user/user.entity.js';
 
-const {prop, modelOptions, index} = typegoose;
+const {prop, modelOptions} = typegoose;
 
 
 @modelOptions({
@@ -11,7 +11,7 @@ const {prop, modelOptions, index} = typegoose;
     collection: 'comments',
   }
 })
-@index({author: 1, offer: 1}, {unique: true})
+
 class CommentEntity extends defaultClasses.TimeStamps {
   constructor() {
     super();
@@ -51,8 +51,6 @@ class CommentEntity extends defaultClasses.TimeStamps {
   }
 }
 
-
 const CommentModel = getModelForClass(CommentEntity);
-
 
 export {CommentEntity, CommentModel};

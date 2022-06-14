@@ -13,3 +13,4 @@ export default class UpdateCommentDto {
   @Max(CommentSettings.CommentRatingMax, {message: `Maximum rating must be less than ${CommentSettings.CommentRatingMax}`})
   public rating!: number;
 }
+

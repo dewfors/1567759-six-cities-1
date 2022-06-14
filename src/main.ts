@@ -16,7 +16,6 @@ import ExceptionFilter from './common/errors/exception-filter.js';
 import { ControllerInterface } from './common/controller/controller.interface.js';
 import UserController from './modules/user/user.controller.js';
 import OfferController from './modules/offer/offer.controller.js';
-import CommentController from './modules/comment/comment.controller.js';
 import {OfferEntity, OfferModel} from './modules/offer/offer.entity.js';
 import OfferService from './modules/offer/offer.service.js';
 import { OfferServiceInterface } from './modules/offer/offer-service.interface.js';
@@ -38,8 +37,6 @@ applicationContainer.bind<ControllerInterface>(Component.UserController).to(User
 applicationContainer.bind<ControllerInterface>(Component.OfferController).to(OfferController).inSingletonScope();
 applicationContainer.bind<CommentServiceInterface>(Component.CommentServiceInterface).to(CommentService).inSingletonScope();
 applicationContainer.bind<ModelType<CommentEntity>>(Component.CommentModel).toConstantValue(CommentModel);
-
-applicationContainer.bind<ControllerInterface>(Component.CommentController).to(CommentController).inSingletonScope();
 
 const application = applicationContainer.get<Application>(Component.Application);
 await application.init();
