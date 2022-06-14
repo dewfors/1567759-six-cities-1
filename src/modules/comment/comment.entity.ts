@@ -3,7 +3,7 @@ import {CommentSettings} from '../../utils/const.js';
 import {OfferEntity} from '../offer/offer.entity.js';
 import {UserEntity} from '../user/user.entity.js';
 
-const {prop, modelOptions, index} = typegoose;
+const {prop, modelOptions} = typegoose;
 
 
 @modelOptions({
@@ -11,7 +11,7 @@ const {prop, modelOptions, index} = typegoose;
     collection: 'comments',
   }
 })
-@index({author: 1, offer: 1}, {unique: true})
+
 class CommentEntity extends defaultClasses.TimeStamps {
   constructor() {
     super();
@@ -24,7 +24,7 @@ class CommentEntity extends defaultClasses.TimeStamps {
     maxlength: CommentSettings.CommentMaxLength,
     default: '',
   })
-  public comment!: string;
+  public text!: string;
 
   @prop({
     required: true,
@@ -38,21 +38,19 @@ class CommentEntity extends defaultClasses.TimeStamps {
     required: true,
     ref: () => OfferEntity
   })
-  public offer!: Ref<OfferEntity>;
+  public offerId!: Ref<OfferEntity>;
 
   @prop({
     required: true,
     ref: () => UserEntity,
   })
-  public author!: Ref<UserEntity>;
+  public userId!: Ref<UserEntity>;
 
   public get postDate() {
     return this.createdAt;
   }
 }
 
-
 const CommentModel = getModelForClass(CommentEntity);
-
 
 export {CommentEntity, CommentModel};

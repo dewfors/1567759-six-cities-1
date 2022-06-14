@@ -175,7 +175,7 @@ Content-Type: application/json
 ###
 ## getOneOffer
 
-GET http://localhost:4000/offers/627b812d07347a02bbf47a49 HTTP/1.1
+GET http://localhost:4000/offers/62a1900b1a068de51bd8a34c HTTP/1.1
 Content-Type: application/json
 ###
 
@@ -195,6 +195,26 @@ Content-Type: application/json
 ###
 
 # Create comment
-POST http://localhost:4000/offers/627b80b930e4a5aa5a5a4cab/comments HTTP/1.1
+POST http://localhost:4000/offers/62a1900b1a068de51bd8a34c/comments HTTP/1.1
 Content-Type: application/json
 
+{
+  "text": "3333 klhkh h lkhljl; l;kjlkjl lkj lj",
+  "rating": 3
+}
+
+### Запрос комментариев к предложению
+GET http://localhost:4000/offers/62a1900b1a068de51bd8a34c/comments
+Accept: application/json
+
+### Set favorite status
+POST http://localhost:4000/offers/favorites/627b812d07347a02bbf47a44/1 HTTP/1.1
+Content-Type: application/json
+
+### Set favorite status
+POST http://localhost:4000/offers/favorites/627b812d07347a02bbf47a49/1 HTTP/1.1
+Content-Type: application/json
+
+### Get favorite offers
+GET http://localhost:4000/offers/favorites HTTP/1.1
+Content-Type: application/json
