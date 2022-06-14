@@ -47,7 +47,10 @@ export default class OfferController extends Controller {
       path: '/:offerId',
       method: HttpMethod.Get,
       handler: this.getOneOffer,
-      middlewares: [new ValidateObjectIdMiddleware('offerId')]
+      middlewares: [
+        new ValidateObjectIdMiddleware('offerId'),
+        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
+      ]
     });
     this.addRoute({
       path: '/:offerId',
@@ -55,14 +58,18 @@ export default class OfferController extends Controller {
       handler: this.updateOffer,
       middlewares: [
         new ValidateObjectIdMiddleware('offerId'),
-        new ValidateDtoMiddleware(CreateOfferDto)
+        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
+        new ValidateDtoMiddleware(CreateOfferDto),
       ]
     });
     this.addRoute({
       path: '/:offerId',
       method: HttpMethod.Delete,
       handler: this.deleteOffer,
-      middlewares: [new ValidateObjectIdMiddleware('offerId')]
+      middlewares: [
+        new ValidateObjectIdMiddleware('offerId'),
+        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
+      ]
     });
     this.addRoute({path: '/favorites', method: HttpMethod.Get, handler: this.getFavoriteOffers});
     this.addRoute({path: '/favorites/:offerId/:status', method: HttpMethod.Post, handler: this.changeFavoriteStatus});
@@ -115,14 +122,6 @@ export default class OfferController extends Controller {
     const {offerId} = params;
     const offer = await this.offerService.findById(offerId);
 
-    if (!offer) {
-      throw new HttpError(
-        StatusCodes.NOT_FOUND,
-        `Offer with id ${offerId} not found.`,
-        'OfferController'
-      );
-    }
-
     this.ok(res, offer);
   }
 
@@ -140,15 +139,12 @@ export default class OfferController extends Controller {
     res: Response
   ): Promise<void> {
     await this.offerService.deleteById(offerId);
-
     this.noContent(res);
   }
 
   public async getPremiumOffers(_req: Request, res: Response): Promise<void> {
     const offers = await this.offerService.findPremium(MAX_PREMIUM_COUNT);
-    console.log(offers);
     this.ok(res, fillDTO(OfferDto, offers));
-
   }
 
   public async getFavoriteOffers(_req: Request, _res: Response): Promise<void> {
@@ -172,7 +168,6 @@ export default class OfferController extends Controller {
     const comments = await this.commentService.findByOfferId(params.offerId);
     this.ok(res, fillDTO(CommentDto, comments));
   }
-
 
 
 }
