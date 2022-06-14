@@ -12,4 +12,5 @@ export interface OfferServiceInterface extends DocumentExistsInterface {
   updateById(offerId: ObjectId | string, dto: CreateOfferDto): Promise<DocumentType<OfferEntity> | null>;
   deleteById(offerId: ObjectId | string): Promise<DocumentType<OfferEntity> | null>;
   findPremium(count: number): Promise<DocumentType<OfferEntity>[]>;
+  incCommentCount(offerId: string): Promise<DocumentType<OfferEntity> | null>;
 }

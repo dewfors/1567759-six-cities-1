@@ -8,17 +8,20 @@ import {LoggerInterface} from '../../common/logger/logger.interface.js';
 import {ObjectId} from 'mongoose';
 import {MAX_COMMENTS_COUNT} from '../../utils/const.js';
 import { Component } from '../../types/component.types.js';
+import { OfferServiceInterface } from '../offer/offer-service.interface.js';
 
 
 @injectable()
 export default class CommentService implements CommentServiceInterface {
   constructor(
-    @inject(Component.CommentModel) private readonly commentModel: ReturnModelType<typeof CommentModel>,
     @inject(Component.LoggerInterface) private readonly logger: LoggerInterface,
+    @inject(Component.CommentModel) private readonly commentModel: ReturnModelType<typeof CommentModel>,
+    @inject(Component.OfferServiceInterface) private readonly offerService: OfferServiceInterface
   ) {}
 
   public async create(dto: CreateCommentDTO, userId: string, offerId: string): Promise<DocumentType<CommentEntity>> {
     const newComment = await this.commentModel.create({...dto, userId, offerId});
+    await this.offerService.incCommentCount(offerId);
     this.logger.info('New comment created');
     return newComment.populate('userId');
   }
