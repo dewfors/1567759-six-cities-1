@@ -4,7 +4,6 @@ import {Component} from '../../types/component.types.js';
 import {LoggerInterface} from '../../common/logger/logger.interface.js';
 import {HttpMethod} from '../../types/http-method.enum.js';
 import {Request, Response} from 'express';
-import HttpError from '../../common/errors/http-error.js';
 import { StatusCodes } from 'http-status-codes';
 import { OfferServiceInterface } from './offer-service.interface.js';
 import * as core from 'express-serve-static-core';
@@ -18,9 +17,18 @@ import CommentDto from '../comment/dto/comment.dto.js';
 import { CommentServiceInterface } from '../comment/comment-service.interface.js';
 import CreateCommentDto from '../comment/dto/create-comment.dto.js';
 import { DocumentExistsMiddleware } from '../../common/middlewares/document-exists.middleware.js';
+import { FavoriteServiceInterface } from '../favorite/favorite-service.interface.js';
+import typegoose from '@typegoose/typegoose';
+
+const {isDocument} = typegoose;
 
 type ParamsGetOffer = {
   offerId: string;
+}
+
+type ParamsOfferFavoriteStatus = {
+  offerId: string;
+  status: string;
 }
 
 @injectable()
@@ -30,6 +38,7 @@ export default class OfferController extends Controller {
     @inject(Component.LoggerInterface) protected readonly logger: LoggerInterface,
     @inject(Component.OfferServiceInterface) private readonly offerService: OfferServiceInterface,
     @inject(Component.CommentServiceInterface) private readonly commentService: CommentServiceInterface,
+    @inject(Component.FavoriteServiceInterface) private readonly favoriteService: FavoriteServiceInterface,
   ) {
     super(logger);
 
@@ -43,6 +52,12 @@ export default class OfferController extends Controller {
       middlewares: [new ValidateDtoMiddleware(CreateOfferDto)]
     });
     this.addRoute({path: '/premium', method: HttpMethod.Get, handler: this.getPremiumOffers});
+    this.addRoute({
+      path: '/favorites',
+      method: HttpMethod.Get,
+      handler: this.getFavoriteOffers
+    });
+
     this.addRoute({
       path: '/:offerId',
       method: HttpMethod.Get,
@@ -71,8 +86,12 @@ export default class OfferController extends Controller {
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
       ]
     });
-    this.addRoute({path: '/favorites', method: HttpMethod.Get, handler: this.getFavoriteOffers});
-    this.addRoute({path: '/favorites/:offerId/:status', method: HttpMethod.Post, handler: this.changeFavoriteStatus});
+
+    this.addRoute({
+      path: '/favorites/:offerId/:status',
+      method: HttpMethod.Post,
+      handler: this.changeFavoriteStatus,
+    });
 
     this.addRoute({
       path: `/:offerId/comments`,
@@ -147,12 +166,42 @@ export default class OfferController extends Controller {
     this.ok(res, fillDTO(OfferDto, offers));
   }
 
-  public async getFavoriteOffers(_req: Request, _res: Response): Promise<void> {
-    throw new HttpError(StatusCodes.NOT_IMPLEMENTED, 'Not implemented!', 'OfferController');
+  public async getFavoriteOffers(_req: Request, res: Response): Promise<void> {
+    const userId = '627b80b930e4a5aa9d9b4cab';
+    const favorites = await this.favoriteService.getFavorites(userId);
+
+    const extendedOffers = favorites.map((favorite) => {
+      if (isDocument(favorite.offer)) {
+        return {
+          ...favorite.offer.toObject(),
+          isFavorite: true,
+        };
+      }
+
+      return null;
+    });
+
+    this.ok(res, fillDTO(OfferDto, extendedOffers));
   }
 
-  public async changeFavoriteStatus(_req: Request, _res: Response): Promise<void> {
-    throw new HttpError(StatusCodes.NOT_IMPLEMENTED, 'Not implemented!', 'OfferController');
+  public async changeFavoriteStatus(
+    {params: {offerId, status}}: Request<core.ParamsDictionary | ParamsOfferFavoriteStatus>,
+    res: Response
+  ): Promise<void> {
+
+    const userId = '627b80b930e4a5aa9d9b4cab';
+    const newStatus = await this.favoriteService.setFavoriteStatus(
+      offerId,
+      userId,
+      Boolean(parseInt(status, 10)),
+    );
+
+    console.log(newStatus);
+
+    const offer = await this.offerService.findById(offerId);
+    const extendedOffer = {...offer?.toObject(), isFavorite: newStatus};
+
+    this.ok(res, fillDTO(OfferDto, extendedOffer));
   }
 
 

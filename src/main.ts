@@ -22,6 +22,9 @@ import { OfferServiceInterface } from './modules/offer/offer-service.interface.j
 import CommentService from './modules/comment/comment.service.js';
 import { CommentServiceInterface } from './modules/comment/comment-service.interface.js';
 import {CommentEntity, CommentModel } from './modules/comment/comment.entity.js';
+import {FavoriteEntity, FavoriteModel} from './modules/favorite/favorite.entity.js';
+import {FavoriteServiceInterface} from './modules/favorite/favorite-service.interface.js';
+import FavoriteService from './modules/favorite/favorite.service.js';
 
 const applicationContainer = new Container();
 applicationContainer.bind<Application>(Component.Application).to(Application).inSingletonScope();
@@ -37,6 +40,8 @@ applicationContainer.bind<ControllerInterface>(Component.UserController).to(User
 applicationContainer.bind<ControllerInterface>(Component.OfferController).to(OfferController).inSingletonScope();
 applicationContainer.bind<CommentServiceInterface>(Component.CommentServiceInterface).to(CommentService).inSingletonScope();
 applicationContainer.bind<ModelType<CommentEntity>>(Component.CommentModel).toConstantValue(CommentModel);
+applicationContainer.bind<ModelType<FavoriteEntity>>(Component.FavoriteModel).toConstantValue(FavoriteModel);
+applicationContainer.bind<FavoriteServiceInterface>(Component.FavoriteServiceInterface).to(FavoriteService).inSingletonScope();
 
 const application = applicationContainer.get<Application>(Component.Application);
 await application.init();
