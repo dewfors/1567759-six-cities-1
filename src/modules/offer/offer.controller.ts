@@ -76,6 +76,17 @@ export default class OfferController extends Controller {
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
       ]
     });
+
+    this.addRoute({
+      path: `/:offerId/comments`,
+      method: HttpMethod.Get,
+      handler: this.getCommentsByOfferId,
+      middlewares: [
+        new ValidateObjectIdMiddleware('offerId'),
+        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')
+      ]
+    });
+
   }
 
   public async getOffers(_req: Request, res: Response): Promise<void> {
@@ -156,6 +167,12 @@ export default class OfferController extends Controller {
     const comment = await this.commentService.create(body, '627b80b930e4a5aa9d9b4cab', offerId);
     this.created(res, fillDTO(CommentDto, comment));
   }
+
+  public async getCommentsByOfferId({params}: Request, res: Response): Promise<void> {
+    const comments = await this.commentService.findByOfferId(params.offerId);
+    this.ok(res, fillDTO(CommentDto, comments));
+  }
+
 
 
 }

@@ -202,3 +202,7 @@ Content-Type: application/json
   "text": "3333 klhkh h lkhljl; l;kjlkjl lkj lj",
   "rating": 3
 }
+
+### Запрос комментариев к предложению
+GET http://localhost:4000/offers/62a1900b1a068de51bd8a34c/comments
+Accept: application/json
