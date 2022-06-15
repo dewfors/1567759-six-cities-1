@@ -238,8 +238,6 @@ export default class OfferController extends Controller {
       Boolean(parseInt(status, 10)),
     );
 
-    console.log(newStatus);
-
     const offer = await this.offerService.findById(offerId);
     const extendedOffer = {...offer?.toObject(), isFavorite: newStatus};
 
