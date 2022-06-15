@@ -14,6 +14,6 @@ export default class CreateCommentDto {
   @IsMongoId({message: 'offerId must be of MongoId type'})
   public offerId!: string;
 
-  @IsMongoId({message: 'userId must be of MongoId type'})
+  // @IsMongoId({message: 'userId must be of MongoId type'})
   public userId!: string;
 }

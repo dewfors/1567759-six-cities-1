@@ -25,7 +25,7 @@ Content-Type: application/json
 
 {
   "email": "torans@overlook.net",
-  "password": "oifylsdf"
+  "password": "1234abcd"
 }
 
 ###
@@ -42,16 +42,26 @@ Content-Type: application/json
 
 ###
 
+# Check user
+GET http://localhost:4000/users/login HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjYyOTliZTI1NjlkNThlYzg0NjI0OTIyMyIsImlhdCI6MTY1NTI3NzE5MSwiZXhwIjoxNjU1NDQ5OTkxfQ.KPpW4ERzfN3FYD6RJFIgtNFX3tM2Lc5cyLhhxzs3LJI
+
+
+###
+
 ## Отправка аватарки пользователю
 
 POST http://localhost:4000/users/62823cb2c5a64ce9f1b50eb6/avatar HTTP/1.1
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjYyOTliZTI1NjlkNThlYzg0NjI0OTIyMyIsImlhdCI6MTY1NTI3NzE5MSwiZXhwIjoxNjU1NDQ5OTkxfQ.KPpW4ERzfN3FYD6RJFIgtNFX3tM2Lc5cyLhhxzs3LJI
+
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="avatar"; filename="an.png"
 Content-Type: image/png
 
-< /!/go/woman.png
+< /!/go/an.png
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
@@ -60,6 +70,7 @@ Content-Type: image/png
 
 POST http://localhost:4000/users/62823cb2c5a64ce9f1b50eb6/avatar HTTP/1.1
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjYyOTliZTI1NjlkNThlYzg0NjI0OTIyMyIsImlhdCI6MTY1NTI3NzE5MSwiZXhwIjoxNjU1NDQ5OTkxfQ.KPpW4ERzfN3FYD6RJFIgtNFX3tM2Lc5cyLhhxzs3LJI
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="avatar"; filename="an.svg"
@@ -75,6 +86,7 @@ Content-Type: image/svg
 # Create offer
 POST http://localhost:4000/offers HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjYyOTliZTI1NjlkNThlYzg0NjI0OTIyMyIsImlhdCI6MTY1NTI3NzE5MSwiZXhwIjoxNjU1NDQ5OTkxfQ.KPpW4ERzfN3FYD6RJFIgtNFX3tM2Lc5cyLhhxzs3LJI
 
 {
   "title": "444 2222 222222",
@@ -118,8 +130,9 @@ Content-Type: application/json
 
 ###
 # Update offer
-PUT http://localhost:4000/offers/629dbfa4d4f58faa59f5e849 HTTP/1.1
+PUT http://localhost:4000/offers/62a1900b1a068de51bd8a34c HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjYyOTliZTI1NjlkNThlYzg0NjI0OTIyMyIsImlhdCI6MTY1NTI3NzE5MSwiZXhwIjoxNjU1NDQ5OTkxfQ.KPpW4ERzfN3FYD6RJFIgtNFX3tM2Lc5cyLhhxzs3LJI
 
 {
   "title": "333 2222 222222",
@@ -166,6 +179,7 @@ Content-Type: application/json
 # Delete offer
 DELETE http://localhost:4000/offers/629dbfa4d4f58faa59f5e849 HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjYyOTliZTI1NjlkNThlYzg0NjI0OTIyMyIsImlhdCI6MTY1NTI3NzE5MSwiZXhwIjoxNjU1NDQ5OTkxfQ.KPpW4ERzfN3FYD6RJFIgtNFX3tM2Lc5cyLhhxzs3LJI
 
 ###
 # Get offers
@@ -177,6 +191,8 @@ Content-Type: application/json
 
 GET http://localhost:4000/offers/62a1900b1a068de51bd8a34c HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjYyOTliZTI1NjlkNThlYzg0NjI0OTIyMyIsImlhdCI6MTY1NTI3NzE5MSwiZXhwIjoxNjU1NDQ5OTkxfQ.KPpW4ERzfN3FYD6RJFIgtNFX3tM2Lc5cyLhhxzs3LJI
+
 ###
 
 ###
@@ -197,10 +213,11 @@ Content-Type: application/json
 # Create comment
 POST http://localhost:4000/offers/62a1900b1a068de51bd8a34c/comments HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjYyOTliZTI1NjlkNThlYzg0NjI0OTIyMyIsImlhdCI6MTY1NTI3NzE5MSwiZXhwIjoxNjU1NDQ5OTkxfQ.KPpW4ERzfN3FYD6RJFIgtNFX3tM2Lc5cyLhhxzs3LJI
 
 {
-  "text": "3333 klhkh h lkhljl; l;kjlkjl lkj lj",
-  "rating": 3
+  "text": "66666 klhkh h lkhljl; l;kjlkjl lkj lj",
+  "rating": 5
 }
 
 ### Запрос комментариев к предложению
@@ -208,13 +225,19 @@ GET http://localhost:4000/offers/62a1900b1a068de51bd8a34c/comments
 Accept: application/json
 
 ### Set favorite status
-POST http://localhost:4000/offers/favorites/627b812d07347a02bbf47a44/1 HTTP/1.1
-Content-Type: application/json
-
-### Set favorite status
 POST http://localhost:4000/offers/favorites/627b812d07347a02bbf47a49/1 HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjYyOTliZTI1NjlkNThlYzg0NjI0OTIyMyIsImlhdCI6MTY1NTI3NzE5MSwiZXhwIjoxNjU1NDQ5OTkxfQ.KPpW4ERzfN3FYD6RJFIgtNFX3tM2Lc5cyLhhxzs3LJI
+
+
+### Set favorite status
+POST http://localhost:4000/offers/favorites/627b812d07347a02bbf47a49/0 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjYyOTliZTI1NjlkNThlYzg0NjI0OTIyMyIsImlhdCI6MTY1NTI3NzE5MSwiZXhwIjoxNjU1NDQ5OTkxfQ.KPpW4ERzfN3FYD6RJFIgtNFX3tM2Lc5cyLhhxzs3LJI
+
 
 ### Get favorite offers
 GET http://localhost:4000/offers/favorites HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjYyOTliZTI1NjlkNThlYzg0NjI0OTIyMyIsImlhdCI6MTY1NTI3NzE5MSwiZXhwIjoxNjU1NDQ5OTkxfQ.KPpW4ERzfN3FYD6RJFIgtNFX3tM2Lc5cyLhhxzs3LJI
+
