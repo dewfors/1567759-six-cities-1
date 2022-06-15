@@ -20,6 +20,7 @@ import { DocumentExistsMiddleware } from '../../common/middlewares/document-exis
 import { FavoriteServiceInterface } from '../favorite/favorite-service.interface.js';
 import {FavoriteEntity} from '../favorite/favorite.entity.js';
 import typegoose, {DocumentType} from '@typegoose/typegoose';
+import {PrivateRouteMiddleware} from '../../common/middlewares/private-route.middleware.js';
 
 const {isDocument} = typegoose;
 
@@ -99,6 +100,7 @@ export default class OfferController extends Controller {
       method: HttpMethod.Post,
       handler: this.createComment,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('offerId'),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
       ]
@@ -215,10 +217,11 @@ export default class OfferController extends Controller {
 
 
   public async createComment(
-    {body, params: {offerId}}: Request<core.ParamsDictionary | ParamsGetOffer, CreateCommentDto>,
+    req: Request<core.ParamsDictionary | ParamsGetOffer, CreateCommentDto>,
     res: Response
   ): Promise<void> {
-    const comment = await this.commentService.create(body, '627b80b930e4a5aa9d9b4cab', offerId);
+    const {body, params: {offerId}, user} = req;
+    const comment = await this.commentService.create(body, user.id, offerId);
     this.created(res, fillDTO(CommentDto, comment));
   }
 
