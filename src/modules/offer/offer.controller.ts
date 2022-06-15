@@ -18,7 +18,8 @@ import { CommentServiceInterface } from '../comment/comment-service.interface.js
 import CreateCommentDto from '../comment/dto/create-comment.dto.js';
 import { DocumentExistsMiddleware } from '../../common/middlewares/document-exists.middleware.js';
 import { FavoriteServiceInterface } from '../favorite/favorite-service.interface.js';
-import typegoose from '@typegoose/typegoose';
+import {FavoriteEntity} from '../favorite/favorite.entity.js';
+import typegoose, {DocumentType} from '@typegoose/typegoose';
 
 const {isDocument} = typegoose;
 
@@ -163,14 +164,22 @@ export default class OfferController extends Controller {
 
   public async getPremiumOffers(_req: Request, res: Response): Promise<void> {
     const offers = await this.offerService.findPremium(MAX_PREMIUM_COUNT);
-    this.ok(res, fillDTO(OfferDto, offers));
+
+    const extendedOffers = await Promise.all(offers.map(
+      async (offer) => ({
+        ...offer.toObject(),
+        isFavorite: await this.favoriteService.getFavoriteStatus(offer.id, null),
+      })
+    ));
+
+    this.ok(res, fillDTO(OfferDto, extendedOffers));
   }
 
   public async getFavoriteOffers(_req: Request, res: Response): Promise<void> {
     const userId = '627b80b930e4a5aa9d9b4cab';
     const favorites = await this.favoriteService.getFavorites(userId);
 
-    const extendedOffers = favorites.map((favorite) => {
+    const extendedOffers = favorites.map((favorite: DocumentType<FavoriteEntity>) => {
       if (isDocument(favorite.offer)) {
         return {
           ...favorite.offer.toObject(),
