@@ -42,16 +42,26 @@ Content-Type: application/json
 
 ###
 
+# Check user
+GET http://localhost:4000/users/login HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjYyOTliZTI1NjlkNThlYzg0NjI0OTIyMyIsImlhdCI6MTY1NTI3NzE5MSwiZXhwIjoxNjU1NDQ5OTkxfQ.KPpW4ERzfN3FYD6RJFIgtNFX3tM2Lc5cyLhhxzs3LJI
+
+
+###
+
 ## Отправка аватарки пользователю
 
 POST http://localhost:4000/users/62823cb2c5a64ce9f1b50eb6/avatar HTTP/1.1
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjYyOTliZTI1NjlkNThlYzg0NjI0OTIyMyIsImlhdCI6MTY1NTI3NzE5MSwiZXhwIjoxNjU1NDQ5OTkxfQ.KPpW4ERzfN3FYD6RJFIgtNFX3tM2Lc5cyLhhxzs3LJI
+
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="avatar"; filename="an.png"
 Content-Type: image/png
 
-< /!/go/woman.png
+< /!/go/an.png
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 

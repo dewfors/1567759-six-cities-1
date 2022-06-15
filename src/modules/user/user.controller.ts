@@ -17,6 +17,7 @@ import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-ob
 import {UploadFileMiddleware} from '../../common/middlewares/upload-file.middleware.js';
 import { JWT_ALGORITM } from './user.constant.js';
 import LoggedUserDto from './dto/logged-user.dto.js';
+import { PrivateRouteMiddleware } from '../../common/middlewares/private-route.middleware.js';
 
 @injectable()
 export default class UserController extends Controller {
@@ -40,13 +41,19 @@ export default class UserController extends Controller {
       handler: this.loginUser,
       middlewares: [new ValidateDtoMiddleware(LoginUserDto)]
     });
-    this.addRoute({path: '/login',    method: HttpMethod.Get, handler: this.checkUser});
+    this.addRoute({
+      path: '/login',
+      method: HttpMethod.Get,
+      handler: this.checkUser,
+      middlewares: [new PrivateRouteMiddleware()],
+    });
     this.addRoute({path: '/login',    method: HttpMethod.Get, handler: this.logoutUser});
     this.addRoute({
       path: '/:userId/avatar',
       method: HttpMethod.Post,
       handler: this.uploadAvatar,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('userId'),
         new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'avatar'),
       ]
@@ -94,8 +101,9 @@ export default class UserController extends Controller {
     this.ok(res, fillDTO(LoggedUserDto, {email: user.email, token}));
   }
 
-  public async checkUser(_req: Request, _res: Response): Promise<void> {
-    throw new HttpError(StatusCodes.NOT_IMPLEMENTED, 'Not implemented!', 'UserController');
+  public async checkUser(req: Request, res: Response): Promise<void> {
+    const user = await this.userService.findById(req.user.id);
+    this.ok(res, fillDTO(UserDto, user));
   }
 
   public async logoutUser(_req: Request, _res: Response): Promise<void> {

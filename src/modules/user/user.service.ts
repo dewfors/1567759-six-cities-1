@@ -7,6 +7,7 @@ import {UserServiceInterface} from './user-service.interface.js';
 import {LoggerInterface} from '../../common/logger/logger.interface.js';
 import {Component} from '../../types/component.types.js';
 import LoginUserDto from './dto/login-user.dto.js';
+import { ObjectId } from 'mongoose';
 
 @injectable()
 export default class UserService implements UserServiceInterface {
@@ -27,6 +28,10 @@ export default class UserService implements UserServiceInterface {
 
   public async findByEmail(email: string): Promise<DocumentType<UserEntity> | null> {
     return this.userModel.findOne({email});
+  }
+
+  public async findById(id: ObjectId | string): Promise<DocumentType<UserEntity> | null> {
+    return this.userModel.findById(id).exec();
   }
 
   public async findOrCreate(dto: CreateUserDto, salt: string): Promise<DocumentType<UserEntity>> {
