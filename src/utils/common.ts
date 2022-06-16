@@ -30,7 +30,7 @@ export const createOffer = (row: string) => {
     maxAdults: Number.parseInt(maxAdults, 10),
     price: Number.parseInt(price, 10),
     goods: goods.split(';').map((name) => (name as GoodsType)),
-    author: {name: authorName, email: authorEmail, avatarPath: authorAvatar, type: authorType as UserType},
+    author: {name: authorName, email: authorEmail, avatarPath: authorAvatar, userType: authorType as UserType},
     countComments: Number.parseInt(countComments, 10),
     location: {latitude: Number.parseInt(locationLat, 10), longitude: Number.parseInt(locationLng, 10)},
   } as Offer;

@@ -16,7 +16,7 @@ export default class CreateUserDto {
   public avatarPath!: string;
 
   @IsEnum(UserType, {message: 'type must be of UserType type'})
-  public type!: UserType;
+  public userType!: UserType;
 
   @IsString({message: 'password is required'})
   @MinLength(UserPasswordSetting.MinLength, {message: `password length must be at least ${UserPasswordSetting.MinLength} characters`})
