@@ -1,4 +1,4 @@
-import {IsEmail, IsEnum, IsString, IsUrl, MaxLength, MinLength} from 'class-validator';
+import {IsEmail, IsEnum, IsString, MaxLength, MinLength} from 'class-validator';
 import {UserType} from '../../../types/user-type.enum.js';
 import {UserNameSetting, UserPasswordSetting} from '../../../utils/const.js';
 
@@ -11,9 +11,6 @@ export default class CreateUserDto {
 
   @IsEmail({}, {message: 'not valid email'})
   public email!: string ;
-
-  @IsUrl({}, {message: 'avatarPath must be url'})
-  public avatarPath!: string;
 
   @IsEnum(UserType, {message: 'type must be of UserType type'})
   public userType!: UserType;
