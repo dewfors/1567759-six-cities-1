@@ -16,8 +16,8 @@ export default class OfferService implements OfferServiceInterface {
     @inject(Component.OfferModel) private readonly offerModel: ModelType<OfferEntity>,
   ) {}
 
-  public async create(dto: CreateOfferDto): Promise<DocumentType<OfferEntity>> {
-    const result = await this.offerModel.create(dto);
+  public async create(dto: CreateOfferDto, userId: string): Promise<DocumentType<OfferEntity>> {
+    const result = await this.offerModel.create({...dto, author: userId});
     this.logger.info(`New offer created: '${dto.title}'`);
 
     return result;
@@ -51,5 +51,10 @@ export default class OfferService implements OfferServiceInterface {
     return this.offerModel
       .findByIdAndUpdate(offerId, {'$inc': {countComments: 1,}}).exec();
   }
+
+  public async isOwner(userId: string, documentId: string): Promise<boolean> {
+    return (await this.offerModel.exists({id: documentId, author: userId}) !== null);
+  }
+
 
 }

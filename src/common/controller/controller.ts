@@ -18,7 +18,7 @@ export abstract class Controller implements ControllerInterface {
   constructor(
     protected readonly logger: LoggerInterface,
     protected readonly configService: ConfigInterface,
-    ) {
+  ) {
     this._router = Router();
   }
 

@@ -22,6 +22,7 @@ import {FavoriteEntity} from '../favorite/favorite.entity.js';
 import typegoose, {DocumentType} from '@typegoose/typegoose';
 import {PrivateRouteMiddleware} from '../../common/middlewares/private-route.middleware.js';
 import { ConfigInterface } from '../../common/config/config.interface.js';
+import CheckOwnerMiddleware from '../../common/middlewares/check-owner.middleware.js';
 
 const {isDocument} = typegoose;
 
@@ -94,6 +95,7 @@ export default class OfferController extends Controller {
         new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('offerId'),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
+        new CheckOwnerMiddleware(this.offerService, 'offerId'),
       ]
     });
 
@@ -146,10 +148,10 @@ export default class OfferController extends Controller {
   }
 
   public async createOffer(
-    {body}: Request<unknown, unknown, CreateOfferDto>,
+    {body, user}: Request<unknown, unknown, CreateOfferDto>,
     res: Response,
   ): Promise<void> {
-    const newOffer = await this.offerService.create(body);
+    const newOffer = await this.offerService.create(body, user.id);
     const extendedOffer = {
       ...newOffer.toObject(),
       isFavorite: false,
