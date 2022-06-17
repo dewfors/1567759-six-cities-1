@@ -194,6 +194,7 @@ export default class OfferController extends Controller {
     res: Response
   ): Promise<void> {
     await this.offerService.deleteById(offerId);
+    await this.commentService.deleteByOfferId(offerId);
     this.noContent(res);
   }
 

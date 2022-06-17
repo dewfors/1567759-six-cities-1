@@ -32,4 +32,8 @@ export default class CommentService implements CommentServiceInterface {
       .populate('userId')
       .limit(MAX_COMMENTS_COUNT);
   }
+
+  public async deleteByOfferId(id: string): Promise<void | null> {
+    await this.commentModel.deleteMany({offerId: id});
+  }
 }
