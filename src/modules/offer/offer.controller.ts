@@ -21,6 +21,7 @@ import { FavoriteServiceInterface } from '../favorite/favorite-service.interface
 import {FavoriteEntity} from '../favorite/favorite.entity.js';
 import typegoose, {DocumentType} from '@typegoose/typegoose';
 import {PrivateRouteMiddleware} from '../../common/middlewares/private-route.middleware.js';
+import { ConfigInterface } from '../../common/config/config.interface.js';
 
 const {isDocument} = typegoose;
 
@@ -38,11 +39,12 @@ export default class OfferController extends Controller {
 
   constructor(
     @inject(Component.LoggerInterface) protected readonly logger: LoggerInterface,
+    @inject(Component.ConfigInterface) configService: ConfigInterface,
     @inject(Component.OfferServiceInterface) private readonly offerService: OfferServiceInterface,
     @inject(Component.CommentServiceInterface) private readonly commentService: CommentServiceInterface,
     @inject(Component.FavoriteServiceInterface) private readonly favoriteService: FavoriteServiceInterface,
   ) {
-    super(logger);
+    super(logger, configService);
 
     this.logger.info('Register routes for OfferController...');
 
