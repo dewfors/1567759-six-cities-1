@@ -7,6 +7,8 @@ import {CityNamesType} from '../types/city-names.type.js';
 import {HousingType} from '../types/housing.type.js';
 import {GoodsType} from '../types/goods.type.js';
 import {UserType} from '../types/user-type.enum.js';
+import {UnknownObject} from '../types/unknown-object.type.js';
+import {DEFAULT_STATIC_IMAGES} from '../app/application.constant.js';
 
 export const createOffer = (row: string) => {
   const tokens = row.replace('\n', '').split('\t');
@@ -30,7 +32,7 @@ export const createOffer = (row: string) => {
     maxAdults: Number.parseInt(maxAdults, 10),
     price: Number.parseInt(price, 10),
     goods: goods.split(';').map((name) => (name as GoodsType)),
-    author: {name: authorName, email: authorEmail, avatarPath: authorAvatar, type: authorType as UserType},
+    author: {name: authorName, email: authorEmail, avatarPath: authorAvatar, userType: authorType as UserType},
     countComments: Number.parseInt(countComments, 10),
     location: {latitude: Number.parseInt(locationLat, 10), longitude: Number.parseInt(locationLng, 10)},
   } as Offer;
@@ -58,3 +60,30 @@ export const createJWT = async (algoritm: string, jwtSecret: string, payload: ob
     .setIssuedAt()
     .setExpirationTime('2d')
     .sign(crypto.createSecretKey(jwtSecret, 'utf-8'));
+
+export const getFullServerPath = (host: string, port: number) => `http://${host}:${port}`;
+
+const isObject = (value: unknown) => typeof value === 'object' && value !== null;
+
+export const transformProperty = (
+  property: string,
+  someObject: UnknownObject,
+  transformFn: (object: UnknownObject) => void
+) => {
+  Object.keys(someObject)
+    .forEach((key) => {
+      if (key === property) {
+        transformFn(someObject);
+      } else if (isObject(someObject[key])) {
+        transformProperty(property, someObject[key] as UnknownObject, transformFn);
+      }
+    });
+};
+
+export const transformObject = (properties: string[], staticPath: string, uploadPath: string, data:UnknownObject) => {
+  properties
+    .forEach((property) => transformProperty(property, data, (target: UnknownObject) => {
+      const rootPath = DEFAULT_STATIC_IMAGES.includes(target[property] as string) ? staticPath : uploadPath;
+      target[property] = `${rootPath}/${target[property]}`;
+    }));
+};

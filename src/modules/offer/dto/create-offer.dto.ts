@@ -5,7 +5,6 @@ import {
   IsDateString,
   IsEnum,
   IsInt,
-  IsMongoId,
   IsNumber,
   IsUrl,
   Max,
@@ -71,7 +70,6 @@ export default class CreateOfferDto {
   @IsEnum(GoodsType, {each: true, message: 'goods must be of GoodsType[] type'})
   public goods!: GoodsType[];
 
-  @IsMongoId({message: 'author must be of MongoId type'})
   public author!: string;
 
   @ValidateNested()

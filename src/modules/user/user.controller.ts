@@ -18,15 +18,16 @@ import {UploadFileMiddleware} from '../../common/middlewares/upload-file.middlew
 import { JWT_ALGORITM } from './user.constant.js';
 import LoggedUserDto from './dto/logged-user.dto.js';
 import { PrivateRouteMiddleware } from '../../common/middlewares/private-route.middleware.js';
+import CreatedUserDto from './dto/created-user.dto.js';
 
 @injectable()
 export default class UserController extends Controller {
   constructor(
     @inject(Component.LoggerInterface) logger: LoggerInterface,
+    @inject(Component.ConfigInterface) configService: ConfigInterface,
     @inject(Component.UserServiceInterface) private readonly userService: UserServiceInterface,
-    @inject(Component.ConfigInterface) private readonly configService: ConfigInterface,
   ) {
-    super(logger);
+    super(logger, configService);
     this.logger.info('Register routes for UserController...');
 
     this.addRoute({
@@ -75,7 +76,7 @@ export default class UserController extends Controller {
     }
 
     const result = await this.userService.create(body, this.configService.get('SALT'));
-    this.created(res, fillDTO(UserDto, result));
+    this.created(res, fillDTO(CreatedUserDto, result));
   }
 
   public async loginUser(
