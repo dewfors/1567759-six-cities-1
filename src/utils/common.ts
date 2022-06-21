@@ -9,6 +9,8 @@ import {GoodsType} from '../types/goods.type.js';
 import {UserType} from '../types/user-type.enum.js';
 import {UnknownObject} from '../types/unknown-object.type.js';
 import {DEFAULT_STATIC_IMAGES} from '../app/application.constant.js';
+import { ValidationError } from 'class-validator/types/validation/ValidationError.js';
+import { ValidationErrorField } from '../types/validation-error-field.type.js';
 
 export const createOffer = (row: string) => {
   const tokens = row.replace('\n', '').split('\t');
@@ -87,3 +89,10 @@ export const transformObject = (properties: string[], staticPath: string, upload
       target[property] = `${rootPath}/${target[property]}`;
     }));
 };
+
+export const transformErrors = (errors: ValidationError[]): ValidationErrorField[] =>
+  errors.map(({property, value, constraints}) => ({
+    property,
+    value,
+    messages: constraints ? Object.values(constraints) : []
+  }));
