@@ -51,7 +51,7 @@ POST http://localhost:4000/users/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "torans2@overlook.net",
+  "email": "torans3@overlook.net",
   "password": "1234abcd"
 }
 
@@ -72,7 +72,7 @@ Content-Type: application/json
 # Check user
 GET http://localhost:4000/users/login HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuczJAb3Zlcmxvb2submV0IiwiaWQiOiI2MmFhZTU3Y2FiYTA4ZjU1NTQwM2JlMzYiLCJpYXQiOjE2NTU0NTE2NTcsImV4cCI6MTY1NTYyNDQ1N30.iKg5P0O0p_1jKRJ_pHL4NOSwFL-ihIcCao8xx3dw3RE
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuczNAb3Zlcmxvb2submV0IiwiaWQiOiI2MmIxNzlmYjc5MzQ1OWNhNTk5MGNhMDciLCJpYXQiOjE2NTU3OTg1NDUsImV4cCI6MTY1NTk3MTM0NX0.5wsEWlzivXWu-u5f2Vnd1xJaGbYqMQFa5rT2fEMsU38
 
 
 ###
@@ -113,10 +113,10 @@ Content-Type: image/svg
 # Create offer
 POST http://localhost:4000/offers HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuczJAb3Zlcmxvb2submV0IiwiaWQiOiI2MmFhZTU3Y2FiYTA4ZjU1NTQwM2JlMzYiLCJpYXQiOjE2NTU0NTE2NTcsImV4cCI6MTY1NTYyNDQ1N30.iKg5P0O0p_1jKRJ_pHL4NOSwFL-ihIcCao8xx3dw3RE
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuczNAb3Zlcmxvb2submV0IiwiaWQiOiI2MmIxNzlmYjc5MzQ1OWNhNTk5MGNhMDciLCJpYXQiOjE2NTU3OTg1NDUsImV4cCI6MTY1NTk3MTM0NX0.5wsEWlzivXWu-u5f2Vnd1xJaGbYqMQFa5rT2fEMsU38
 
 {
-  "title": "888 2222 222222",
+  "title": "999 2222 222222",
   "description": "222 Design interior in most sympathetic area! Complitely renovated, well-equipped, cosy studio in idyllic, over 100 years old wooden house. Calm street, fast connection to center and airport.",
   "postDate": "2022-05-05T09:04:41.515Z",
   "city": {
