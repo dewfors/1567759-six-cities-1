@@ -85,6 +85,7 @@ export default class OfferController extends Controller {
         new ValidateObjectIdMiddleware('offerId'),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
         new ValidateDtoMiddleware(CreateOfferDto),
+        new CheckOwnerMiddleware(this.offerService, 'offerId'),
       ]
     });
     this.addRoute({

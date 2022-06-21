@@ -13,7 +13,6 @@ class CheckOwnerMiddleware implements MiddlewareInterface {
   public async execute(req: Request, _res: Response, next: NextFunction): Promise<void> {
 
     const {params, user} = req;
-    // const {user} = res.locals;
 
     console.log(user);
     console.log(params);
