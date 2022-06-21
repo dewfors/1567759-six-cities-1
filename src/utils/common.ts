@@ -11,6 +11,7 @@ import {UnknownObject} from '../types/unknown-object.type.js';
 import {DEFAULT_STATIC_IMAGES} from '../app/application.constant.js';
 import { ValidationError } from 'class-validator/types/validation/ValidationError.js';
 import { ValidationErrorField } from '../types/validation-error-field.type.js';
+import {ServiceError} from '../types/service-error.enum.js';
 
 export const createOffer = (row: string) => {
   const tokens = row.replace('\n', '').split('\t');
@@ -52,8 +53,10 @@ export const createSHA256 = (line: string, salt: string): string => {
 export const fillDTO = <T, V>(someDto: ClassConstructor<T>, plainObject: V) =>
   plainToInstance(someDto, plainObject, {excludeExtraneousValues: true});
 
-export const createErrorObject = (message: string) => ({
-  error: message,
+export const createErrorObject = (serviceError: ServiceError, message: string, details: ValidationErrorField[] = []) => ({
+  errorType: serviceError,
+  message,
+  details: [...details]
 });
 
 export const createJWT = async (algoritm: string, jwtSecret: string, payload: object): Promise<string> =>
