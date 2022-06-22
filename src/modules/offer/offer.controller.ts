@@ -23,6 +23,9 @@ import typegoose, {DocumentType} from '@typegoose/typegoose';
 import {PrivateRouteMiddleware} from '../../common/middlewares/private-route.middleware.js';
 import { ConfigInterface } from '../../common/config/config.interface.js';
 import CheckOwnerMiddleware from '../../common/middlewares/check-owner.middleware.js';
+import {UserServiceInterface} from '../user/user-service.interface.js';
+import UserToClientDto from '../user/dto/user-to-client.dto.js';
+import OfferToClientDto from './dto/offer-to-client.dto.js';
 
 const {isDocument} = typegoose;
 
@@ -44,6 +47,7 @@ export default class OfferController extends Controller {
     @inject(Component.OfferServiceInterface) private readonly offerService: OfferServiceInterface,
     @inject(Component.CommentServiceInterface) private readonly commentService: CommentServiceInterface,
     @inject(Component.FavoriteServiceInterface) private readonly favoriteService: FavoriteServiceInterface,
+    @inject(Component.UserServiceInterface) private readonly userService: UserServiceInterface,
   ) {
     super(logger, configService);
 
@@ -153,12 +157,16 @@ export default class OfferController extends Controller {
     res: Response,
   ): Promise<void> {
     const newOffer = await this.offerService.create(body, user.id);
+    const host = await this.userService.findById(user.id);
     const extendedOffer = {
       ...newOffer.toObject(),
       isFavorite: false,
+      host: fillDTO(UserToClientDto, host),
     };
 
-    this.ok(res, fillDTO(OfferDto, extendedOffer));
+    console.log(extendedOffer);
+
+    this.ok(res, fillDTO(OfferToClientDto, extendedOffer));
   }
 
   public async getOneOffer(
@@ -168,13 +176,15 @@ export default class OfferController extends Controller {
     const {params} = req;
     const {offerId} = params;
     const offer = await this.offerService.findById(offerId);
-
+    const host = await this.userService.findById(req?.user?.id);
     const extendedOffer = {
       ...offer?.toObject(),
-      isFavorite: await this.favoriteService.getFavoriteStatus(offer?.id, req?.user?.id)
+      isFavorite: await this.favoriteService.getFavoriteStatus(offer?.id, req?.user?.id),
+      host: fillDTO(UserToClientDto, host),
     };
 
-    this.ok(res, extendedOffer);
+    // this.ok(res, extendedOffer);
+    this.ok(res, fillDTO(OfferToClientDto, extendedOffer));
   }
 
   public async updateOffer(
@@ -262,6 +272,8 @@ export default class OfferController extends Controller {
 
   public async getCommentsByOfferId({params}: Request, res: Response): Promise<void> {
     const comments = await this.commentService.findByOfferId(params.offerId);
+
+
     this.ok(res, fillDTO(CommentDto, comments));
   }
 

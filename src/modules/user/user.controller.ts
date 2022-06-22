@@ -59,6 +59,11 @@ export default class UserController extends Controller {
         new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'avatar'),
       ]
     });
+    this.addRoute({
+      path: '/logout',
+      method: HttpMethod.Delete,
+      handler: this.logout,
+    });
   }
 
   public async create(
@@ -115,6 +120,10 @@ export default class UserController extends Controller {
     this.created(res, {
       filepath: req.file?.path
     });
+  }
+
+  public async logout(_req: Request, res: Response) {
+    this.noContent(res);
   }
 
 }
