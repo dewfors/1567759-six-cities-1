@@ -11,7 +11,7 @@ export default class UserToClientDto {
   @Expose()
   public email!: string;
 
-  @Expose()
+  @Expose({name: 'avatarPath'})
   public avatarUrl!: string;
 
   @Expose()

@@ -27,6 +27,7 @@ import {UserServiceInterface} from '../user/user-service.interface.js';
 import UserToClientDto from '../user/dto/user-to-client.dto.js';
 import OfferToClientDto from './dto/offer-to-client.dto.js';
 import {ObjectId} from "mongoose";
+import CommentToClientDto from '../comment/dto/comment-to-client.dto.js';
 
 const {isDocument} = typegoose;
 
@@ -192,7 +193,7 @@ export default class OfferController extends Controller {
       host: fillDTO(UserToClientDto, host),
     };
 
-    console.log(extendedOffer);
+    //console.log(extendedOffer);
 
     this.ok(res, fillDTO(OfferToClientDto, extendedOffer));
   }
@@ -299,11 +300,36 @@ export default class OfferController extends Controller {
     this.created(res, fillDTO(CommentDto, comment));
   }
 
+  // private async getExstendComment(comment) {
+  //
+  //   console.log(comment);
+  //
+  //   // const host = await this.userService.findById(comment.author.);
+  //   //
+  //   // const extendHost = {
+  //   //   ...host?.toObject(),
+  //   //   isPro: host?.userType === 'pro',
+  //   //   avatarUrl: host?.avatarPath,
+  //   // }
+  //
+  //   // console.log(extendHost);
+  //   // console.log(fillDTO(UserToClientDto, extendHost));
+  //
+  //   return '';
+  // }
+
   public async getCommentsByOfferId({params}: Request, res: Response): Promise<void> {
     const comments = await this.commentService.findByOfferId(params.offerId);
 
+    console.log(comments);
 
-    this.ok(res, fillDTO(CommentDto, comments));
+
+    // const extendComments = comments.map((comment) => this.getExstendComment(comment));
+    //
+    // console.log(extendComments);
+
+    // this.ok(res, fillDTO(CommentDto, comments));
+    this.ok(res, fillDTO(CommentToClientDto, comments));
   }
 
 
