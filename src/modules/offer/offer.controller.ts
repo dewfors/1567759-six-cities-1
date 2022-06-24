@@ -226,10 +226,12 @@ export default class OfferController extends Controller {
 
     const extendedOffer = {
       ...updatedOffer?.toObject(),
-      isFavorite: await this.favoriteService.getFavoriteStatus(updatedOffer?.id, req?.user?.id)
+      isFavorite: await this.favoriteService.getFavoriteStatus(updatedOffer?.id, req?.user?.id),
+      host: fillDTO(UserToClientDto, await this.getHost(req?.user?.id)),
     };
 
-    this.ok(res, fillDTO(OfferDto, extendedOffer));
+    //this.ok(res, fillDTO(OfferDto, extendedOffer));
+    this.ok(res, fillDTO(OfferToClientDto, extendedOffer));
   }
 
   public async deleteOffer(
