@@ -12,8 +12,11 @@ export default class UserToClientDto {
   public email!: string;
 
   @Expose()
-  public avatar?: string;
+  public avatarUrl!: string;
 
   @Expose()
   public userType!: string;
+
+  @Expose()
+  public isPro!: boolean;
 }
