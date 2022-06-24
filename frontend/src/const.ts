@@ -80,7 +80,7 @@ export enum NameSpace {
 export enum APIRoute {
   Offers = '/offers',
   Premium = '/premium',
-  Favorite = '/favorite',
+  Favorite = '/offers/favorites',
   Comments = '/comments',
   Login = '/users/login',
   Logout = '/users/logout',

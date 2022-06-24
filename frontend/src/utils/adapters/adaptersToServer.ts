@@ -9,6 +9,7 @@ import {NewReview} from '../../types/new-review';
 import {Review} from '../../types/review';
 import {ReviewApi} from '../../types/review-api';
 import {formatDate} from '../../utils';
+import {OfferUpdateApi} from "../../types/offer-update-api";
 
 export const adaptSignupToServer =
     (user: NewUser): CreateUserDto => ({
@@ -18,58 +19,46 @@ export const adaptSignupToServer =
         userType: user.isPro ? 'pro' : 'regular',
     });
 
-export const adaptOfferToClient = (
-    {
-        id,
-        city,
-        previewImage,
-        images,
-        title,
-        isPremium,
-        isFavorite,
-        rating,
-        type,
-        bedrooms,
-        maxAdults,
-        price,
-        goods,
-        host: {
-            avatarUrl,
-            email,
-            isPro,
-            name,
-        },
-        description,
-        location
-    }: OfferApi): Offer => {
+export const adaptOfferToClient = (offerApi: OfferApi): Offer => {
+
+    //console.log('offerApi', offerApi);
+
     return {
-        bedrooms,
-        city,
-        description,
-        goods,
+        bedrooms: offerApi.rooms,
+        city: offerApi.city,
+        description: offerApi.description,
+        goods: offerApi.goods,
         host: {
-            avatarUrl,
-            email,
-            isPro,
-            name,
+            avatarUrl: offerApi.host.avatarUrl,
+            email: offerApi.host.email,
+            isPro: offerApi.host.isPro,
+            name: offerApi.host.name,
         },
-        id,
-        images,
-        isFavorite,
-        isPremium,
-        // @ts-ignore
-        location,
-        maxAdults,
-        previewImage,
-        price,
-        rating,
-        title,
-        type,
+        id: offerApi.id,
+        images: offerApi.images,
+        isFavorite: offerApi.isFavorite,
+        isPremium: offerApi.isPremium,
+        location: {
+            latitude: offerApi.location.latitude,
+            longitude: offerApi.location.longitude,
+        },
+        maxAdults: offerApi.maxAdults,
+        previewImage: offerApi.previewImage,
+        price: offerApi.price,
+        rating: offerApi.rating,
+        title: offerApi.title,
+        type: offerApi.type,
     }
 }
 
 export const adaptOffersToClient = (offers: OfferApi[]): Offer[] => {
-    return offers.map((offer) => adaptOfferToClient(offer));
+
+    //console.log(offers);
+    const adaptOffers = offers.map((offer) => adaptOfferToClient(offer));
+    //console.log('adaptOffers', adaptOffers);
+
+    // return offers.map((offer) => adaptOfferToClient(offer));
+    return adaptOffers;
 }
 
 export const adaptNewOfferToServer = (
@@ -112,35 +101,67 @@ export const adaptNewOfferToServer = (
     }
 }
 
+export const adaptOfferToServer = (
+    {
+        bedrooms,
+        city,
+        description,
+        goods,
+        images,
+        isPremium,
+        location,
+        maxAdults,
+        previewImage,
+        price,
+        rating,
+        title,
+        type
+    }: Offer): OfferUpdateApi => {
+    return {
+        city,
+        previewImage,
+        images,
+        title,
+        isPremium,
+        rating,
+        type,
+        rooms: bedrooms,
+        maxAdults,
+        price,
+        goods,
+        description,
+        location,
+        postDate: new Date(),
+    }
+}
+
 export const adaptReviewToClient = (reviewApi: ReviewApi): Review => {
 
-    // console.log(reviewApi);
+    console.log('reviewApi', reviewApi);
+
+    const {comment, date, user, id, rating} = reviewApi;
+    const {avatarUrl, email, name, userType} = user;
 
     const reviewAdapt = {
-        comment: reviewApi.text,
+        comment: comment,
         // date: formatDate(reviewApi.postDate.toDateString()),
-        date: reviewApi.postDate.toString(),
-        id: reviewApi.id,
-        rating: reviewApi.rating,
+        date: date.toString(),
+        id: id,
+        rating: rating,
         user: {
-            avatarUrl: '',
-            email: reviewApi.author.email,
-            name: reviewApi.author.name,
-            isPro: reviewApi.author.userType === 'pro',
+            avatarUrl: avatarUrl,
+            email: email,
+            name: name,
+            isPro: userType === 'pro',
         }
     }
 
     console.log(reviewAdapt);
 
-    return reviewAdapt;
+    return <Review>reviewAdapt;
 }
 
-// export const adaptReviewsToClient = (reviews: ReviewApi[]): Review[] =>
-//     reviews.map((review) => adaptReviewToClient(review));
-
 export const adaptReviewsToClient = (reviews: ReviewApi[]): Review[] => {
-    // console.log(reviews);
-    // console.log(adaptReviewToClient(reviews[0]));
     return reviews.map((review) => adaptReviewToClient(review))
 };
 

@@ -39,7 +39,7 @@ import {
     adaptOfferToClient,
     adaptSignupToServer,
     adaptNewReview,
-    adaptReviewsToClient
+    adaptReviewsToClient, adaptOfferToServer
 } from '../utils/adapters/adaptersToServer';
 import {OfferApi} from "../types/offer-api";
 import {ReviewApi} from "../types/review-api";
@@ -55,8 +55,13 @@ export const fetchOffers = createAsyncThunk<void, undefined, AsyncThunkConfig>(
   async (_arg, { dispatch, extra: api }) => {
     dispatch(setOffersIsLoading(true));
     try {
-      const { data } = await api.get<Offer[]>(APIRoute.Offers);
-      dispatch(setOffers(data));
+      const { data } = await api.get<OfferApi[]>(APIRoute.Offers);
+
+        // console.log(data);
+        const offers = adaptOffersToClient(data);
+        //console.log('offers', offers);
+
+        dispatch(setOffers(adaptOffersToClient(data)))
     } catch {
       toast.error('Can\'t fetch offers');
     } finally {
@@ -71,7 +76,11 @@ export const fetchOffer = createAsyncThunk<void, string, AsyncThunkConfig>(
     dispatch(setOfferIsLoading(true));
     try {
       const { data } = await api.get<OfferApi>(`${APIRoute.Offers}/${id}`);
-      dispatch(setActiveOffer(adaptOfferToClient(data)))
+
+      const adaptOffer = adaptOfferToClient(data);
+        // console.log(adaptOffer);
+
+        dispatch(setActiveOffer(adaptOffer));
     } catch {
       dispatch(setActiveOffer(null));
       toast.error('Can\'t fetch offer');
@@ -87,8 +96,12 @@ export const editOffer = createAsyncThunk<void, Offer, AsyncThunkConfig>(
     try {
       const { data } = await api.put<Offer>(
         `${APIRoute.Offers}/${offerData.id}`,
-        offerData
+          adaptOfferToServer(offerData),
       );
+
+        console.log(data);
+
+        //const adaptOffer = adaptOfferToClient(data);
       dispatch(setActiveOffer(data));
     } catch {
       throw new Error('Can\'t edit offer');
@@ -151,6 +164,7 @@ export const fetchReviews = createAsyncThunk<void, string, AsyncThunkConfig>(
     dispatch(setReviewsIsLoading(true));
     try {
       const data  = await api.get<ReviewApi[]>(`${APIRoute.Offers}/${id}${APIRoute.Comments}`);
+      console.log('data.data', data.data);
       const reviews = adaptReviewsToClient(data.data);
       dispatch(setReviews(reviews))
     } catch {

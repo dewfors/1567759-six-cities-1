@@ -2,8 +2,14 @@ import UserDto from "../dto/user/user.dto";
 
 export type ReviewApi = {
     id: string;
-    text: string;
+    comment: string;
     rating: number;
-    postDate: Date;
-    author: UserDto;
+    date: Date;
+    user: {
+        avatarUrl: string;
+        email: string;
+        id: string,
+        userType: string;
+        name: string;
+    };
 };
