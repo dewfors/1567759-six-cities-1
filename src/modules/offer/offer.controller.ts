@@ -23,6 +23,11 @@ import typegoose, {DocumentType} from '@typegoose/typegoose';
 import {PrivateRouteMiddleware} from '../../common/middlewares/private-route.middleware.js';
 import { ConfigInterface } from '../../common/config/config.interface.js';
 import CheckOwnerMiddleware from '../../common/middlewares/check-owner.middleware.js';
+import {UserServiceInterface} from '../user/user-service.interface.js';
+import UserToClientDto from '../user/dto/user-to-client.dto.js';
+import OfferToClientDto from './dto/offer-to-client.dto.js';
+import {ObjectId} from 'mongoose';
+import CommentToClientDto from '../comment/dto/comment-to-client.dto.js';
 
 const {isDocument} = typegoose;
 
@@ -44,6 +49,7 @@ export default class OfferController extends Controller {
     @inject(Component.OfferServiceInterface) private readonly offerService: OfferServiceInterface,
     @inject(Component.CommentServiceInterface) private readonly commentService: CommentServiceInterface,
     @inject(Component.FavoriteServiceInterface) private readonly favoriteService: FavoriteServiceInterface,
+    @inject(Component.UserServiceInterface) private readonly userService: UserServiceInterface,
   ) {
     super(logger, configService);
 
@@ -85,6 +91,7 @@ export default class OfferController extends Controller {
         new ValidateObjectIdMiddleware('offerId'),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
         new ValidateDtoMiddleware(CreateOfferDto),
+        new CheckOwnerMiddleware(this.offerService, 'offerId'),
       ]
     });
     this.addRoute({
@@ -133,18 +140,32 @@ export default class OfferController extends Controller {
 
   }
 
+  private async getHost(id: ObjectId | string) {
+    const host = await this.userService.findById(id);
+
+    const extendHost = {
+      ...host?.toObject(),
+      isPro: host?.userType === 'pro',
+      avatarUrl: host?.avatarPath,
+    };
+
+    return extendHost;
+  }
+
   public async getOffers(req: Request, res: Response): Promise<void> {
 
     const offers = await this.offerService.findAll();
 
     const extendedOffers = await Promise.all(offers.map(
+
       async (offer) => ({
         ...offer.toObject(),
         isFavorite: await this.favoriteService.getFavoriteStatus(offer.id, req?.user?.id),
+        host: fillDTO(UserToClientDto, await this.getHost(offer.toObject().author)),
       })
     ));
 
-    this.send(res, StatusCodes.OK, fillDTO(OfferDto, extendedOffers));
+    this.send(res, StatusCodes.OK, fillDTO(OfferToClientDto, extendedOffers));
   }
 
   public async createOffer(
@@ -152,12 +173,15 @@ export default class OfferController extends Controller {
     res: Response,
   ): Promise<void> {
     const newOffer = await this.offerService.create(body, user.id);
+    const host = fillDTO(UserToClientDto, await this.userService.findById(user.id));
+
     const extendedOffer = {
       ...newOffer.toObject(),
       isFavorite: false,
+      host: fillDTO(UserToClientDto, host),
     };
 
-    this.ok(res, fillDTO(OfferDto, extendedOffer));
+    this.ok(res, fillDTO(OfferToClientDto, extendedOffer));
   }
 
   public async getOneOffer(
@@ -170,10 +194,11 @@ export default class OfferController extends Controller {
 
     const extendedOffer = {
       ...offer?.toObject(),
-      isFavorite: await this.favoriteService.getFavoriteStatus(offer?.id, req?.user?.id)
+      isFavorite: await this.favoriteService.getFavoriteStatus(offer?.id, req?.user?.id),
+      host: fillDTO(UserToClientDto, await this.getHost(req?.user?.id)),
     };
 
-    this.ok(res, extendedOffer);
+    this.ok(res, fillDTO(OfferToClientDto, extendedOffer));
   }
 
   public async updateOffer(
@@ -185,10 +210,11 @@ export default class OfferController extends Controller {
 
     const extendedOffer = {
       ...updatedOffer?.toObject(),
-      isFavorite: await this.favoriteService.getFavoriteStatus(updatedOffer?.id, req?.user?.id)
+      isFavorite: await this.favoriteService.getFavoriteStatus(updatedOffer?.id, req?.user?.id),
+      host: fillDTO(UserToClientDto, await this.getHost(req?.user?.id)),
     };
 
-    this.ok(res, fillDTO(OfferDto, extendedOffer));
+    this.ok(res, fillDTO(OfferToClientDto, extendedOffer));
   }
 
   public async deleteOffer(
@@ -261,8 +287,7 @@ export default class OfferController extends Controller {
 
   public async getCommentsByOfferId({params}: Request, res: Response): Promise<void> {
     const comments = await this.commentService.findByOfferId(params.offerId);
-    this.ok(res, fillDTO(CommentDto, comments));
+    this.ok(res, fillDTO(CommentToClientDto, comments));
   }
-
 
 }

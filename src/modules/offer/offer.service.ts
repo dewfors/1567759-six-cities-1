@@ -7,6 +7,7 @@ import CreateOfferDto from './dto/create-offer.dto.js';
 import {OfferServiceInterface} from './offer-service.interface.js';
 import {OfferEntity} from './offer.entity.js';
 import { Component } from '../../types/component.types.js';
+import {MAX_OFFERS_COUNT} from '../../utils/const.js';
 
 
 @injectable()
@@ -28,7 +29,7 @@ export default class OfferService implements OfferServiceInterface {
   }
 
   public async findAll(): Promise<DocumentType<OfferEntity>[]> {
-    return this.offerModel.find({}).sort({date: -1}).exec();
+    return this.offerModel.find({}).sort({date: -1}).limit(MAX_OFFERS_COUNT).exec();
   }
 
   public async updateById(offerId: ObjectId | string, dto: CreateOfferDto): Promise<DocumentType<OfferEntity> | null> {

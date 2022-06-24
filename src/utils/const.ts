@@ -1,6 +1,5 @@
-
+export const MAX_OFFERS_COUNT = 60;
 export const MAX_COMMENTS_COUNT = 50;
-
 export const MAX_PREMIUM_COUNT = 3;
 
 export enum UserNameSetting {
