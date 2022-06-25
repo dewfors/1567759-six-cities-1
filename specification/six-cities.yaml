@@ -43,7 +43,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Createoffer'
+              $ref: '#/components/schemas/CreateOffer'
         required: true
       responses:
         '201':
@@ -311,7 +311,7 @@ paths:
 
 components:
   schemas:
-    Createoffer:
+    CreateOffer:
       type: object
       properties:
         title:
