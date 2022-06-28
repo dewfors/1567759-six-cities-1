@@ -27,7 +27,12 @@ export default class FavoriteService implements FavoriteServiceInterface {
     status: boolean,
   ): Promise<boolean> {
     if (status) {
-      await this.favoriteModel.create({user: userId, offer: offerId});
+      const favorite = await this.favoriteModel.findOne({user: userId, offer: offerId}).exec();
+
+      if (!favorite) {
+        await this.favoriteModel.create({user: userId, offer: offerId});
+      }
+
       return true;
     }
 

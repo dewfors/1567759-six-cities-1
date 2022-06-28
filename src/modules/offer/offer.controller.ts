@@ -239,9 +239,11 @@ export default class OfferController extends Controller {
     this.ok(res, fillDTO(OfferDto, extendedOffers));
   }
 
-  public async getFavoriteOffers(_req: Request, res: Response): Promise<void> {
-    const userId = '627b80b930e4a5aa9d9b4cab';
-    const favorites = await this.favoriteService.getFavorites(userId);
+  public async getFavoriteOffers(req: Request, res: Response): Promise<void> {
+
+    const {user} = req;
+
+    const favorites = await this.favoriteService.getFavorites(user.id);
 
     const extendedOffers = favorites.map((favorite: DocumentType<FavoriteEntity>) => {
       if (isDocument(favorite.offer)) {
@@ -258,14 +260,13 @@ export default class OfferController extends Controller {
   }
 
   public async changeFavoriteStatus(
-    {params: {offerId, status}}: Request<core.ParamsDictionary | ParamsOfferFavoriteStatus>,
+    {params: {offerId, status}, user}: Request<core.ParamsDictionary | ParamsOfferFavoriteStatus>,
     res: Response
   ): Promise<void> {
 
-    const userId = '627b80b930e4a5aa9d9b4cab';
     const newStatus = await this.favoriteService.setFavoriteStatus(
       offerId,
-      userId,
+      user.id,
       Boolean(parseInt(status, 10)),
     );
 
